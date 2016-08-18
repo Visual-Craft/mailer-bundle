@@ -1,0 +1,14 @@
+services:
+    visual_craft_mailer.swift_mailer_provider:
+        class: VisualCraft\Bundle\MailerBundle\SwiftMailerProvider
+        arguments: [ '@service_container', '%swiftmailer.mailers%', '%swiftmailer.default_mailer%' ]
+        public: false
+
+    visual_craft_mailer.mail_handler_registry.lazy:
+        class: VisualCraft\Bundle\MailerBundle\MailHandlerRegistry\LazyMailHandlerRegistry
+        arguments: [ '@service_container' ]
+        public: false
+
+    visual_craft_mailer.mailer:
+        class: VisualCraft\Bundle\MailerBundle\Mailer
+        arguments: [ '@visual_craft_mailer.swift_mailer_provider', '@visual_craft_mailer.mail_handler_registry.lazy' ]
