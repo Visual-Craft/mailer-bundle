@@ -1,12 +1,15 @@
 VisualCraftMailerBundle
 =======================
 
+Symfony framework bundle, which provides high-level API for sending emails using Swiftmailer
+
+
 Installation
 ------------
 
 ### Step 1: Install the Bundle
 
-    $ composer visual-craft/mailer-bundle
+    $ composer require visual-craft/mailer-bundle
 
 ### Step 2: Enable the Bundle
 
@@ -45,13 +48,13 @@ Usage
     {
         public function configureOptions(OptionsResolver $optionsResolver)
         {
-            // configure options that shoul be provided to buildMessage method
+            // configure options that should be provided to buildMessage method
             $optionsResolver->setRequired(['to']);
         }
 
         public function buildMessage(\Swift_Message $message, array $options)
         {
-            // buld message
+            // build message
             $message
                 ->setSubject('Registration')
                 ->setTo($options['to'])
