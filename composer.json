@@ -7,7 +7,7 @@
     "version": "dev-master",
 
     "autoload" : {
-        "psr-0": { "VisualCraft\\": "src/" }
+        "psr-4": { "VisualCraft\\Bundle\\MailerBundle\\": "src/" }
     },
     "require": {
         "php": ">=5.5.0",
