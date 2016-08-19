@@ -13,6 +13,6 @@
         "php": ">=5.5.0",
         "symfony/framework-bundle": "~2.3|~3.0",
         "symfony/swiftmailer-bundle": "~2.3",
-        "symfony/options-resolver": "~2.3"
+        "symfony/options-resolver": "~2.3|~3.0"
     }
 }
