@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualCraft\Bundle\MailerBundle\Traits;
+namespace VisualCraft\Bundle\MailerBundle\MailHandler;
 
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 
