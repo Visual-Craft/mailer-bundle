@@ -31,6 +31,7 @@ class Mailer
      * @param string $alias
      * @param array $options
      * @param string|null $swiftMailerName
+     * @return SendStatus
      */
     public function send($alias, array $options = [], $swiftMailerName = null)
     {
@@ -47,6 +48,9 @@ class Mailer
 
         $message = \Swift_Message::newInstance();
         $handler->buildMessage($message, $options);
-        $mailer->send($message);
+        $failedRecipients = [];
+        $sent = $mailer->send($message, $failedRecipients);
+
+        return new SendStatus($sent, $failedRecipients);
     }
 }
