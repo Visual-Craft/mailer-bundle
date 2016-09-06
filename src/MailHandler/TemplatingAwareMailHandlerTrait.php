@@ -9,18 +9,14 @@ trait TemplatingAwareMailHandlerTrait
     /**
      * @var EngineInterface
      */
-    protected $templateEngine;
+    protected $templatingEngine;
 
     /**
      * @param EngineInterface $value
-     *
-     * @return $this
      */
-    public function setTemplateEngine(EngineInterface $value)
+    public function setTemplatingEngine(EngineInterface $value)
     {
-        $this->templateEngine = $value;
-
-        return $this;
+        $this->templatingEngine = $value;
     }
 
     /**
@@ -31,7 +27,7 @@ trait TemplatingAwareMailHandlerTrait
      */
     protected function renderBody($template, array $parameters = [])
     {
-        return $this->templateEngine->render($template, $parameters);
+        return $this->templatingEngine->render($template, $parameters);
     }
 
     /**
@@ -42,6 +38,6 @@ trait TemplatingAwareMailHandlerTrait
      */
     protected function renderSubject($template, array $parameters = [])
     {
-        return trim($this->templateEngine->render($template, $parameters));
+        return trim($this->templatingEngine->render($template, $parameters));
     }
 }
