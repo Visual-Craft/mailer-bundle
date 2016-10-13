@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit bootstrap="vendor/autoload.php" colors="true">
+    <testsuites>
+        <testsuite name="Visual Craft Mailer Bundle Test Suite">
+            <directory suffix="Test.php">./tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory suffix=".php">./src/</directory>
+            <exclude>
+                <directory>./src/Resources</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+    <logging>
+        <log
+             type="coverage-html"
+             target="./log/report"
+             charset="UTF-8"
+             yui="true"
+             highlight="true"
+             lowUpperBound="50"
+             highLowerBound="80"
+        />
+    </logging>
+</phpunit>

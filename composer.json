@@ -9,10 +9,16 @@
     "autoload" : {
         "psr-4": { "VisualCraft\\Bundle\\MailerBundle\\": "src/" }
     },
+    "autoload-dev": {
+        "psr-4": { "VisualCraft\\Bundle\\MailerBundle\\Tests\\": "tests/" }
+    },
     "require": {
         "php": ">=5.5.0",
         "symfony/framework-bundle": "~2.3|~3.0",
         "symfony/swiftmailer-bundle": "~2.3",
         "symfony/options-resolver": "~2.3|~3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.8"
     }
 }
