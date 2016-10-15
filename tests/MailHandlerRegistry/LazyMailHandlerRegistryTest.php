@@ -36,7 +36,7 @@ class LazyMailHandlerRegistryTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \VisualCraft\Bundle\MailerBundle\Exception\MissingMailHandlerException
      */
-    public function testGetMailHandlerGetNotRegisterMailerHandler()
+    public function testGetMailHandlerWithNotRegisterMailerHandler()
     {
         $container = $this->getMock(Container::class);
         $mailHandlerRegistry = new LazyMailHandlerRegistry($container);
@@ -46,7 +46,7 @@ class LazyMailHandlerRegistryTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \VisualCraft\Bundle\MailerBundle\Exception\MissingMailHandlerException
      */
-    public function testGetMailHandlerGetRegisteredBytNotExistingService()
+    public function testGetMailHandlerWithRegisteredBytNotExistingService()
     {
         $container = $this->getMock(Container::class);
         $container
@@ -57,6 +57,31 @@ class LazyMailHandlerRegistryTest extends \PHPUnit_Framework_TestCase
         $serviceAlias = 'foo';
         $mailHandlerRegistry->registerMailHandler($serviceAlias, 'foo_service');
         $mailHandlerRegistry->getMailHandler('foo');
+    }
+
+    /**
+     * @expectedException \VisualCraft\Bundle\MailerBundle\Exception\UnexpectedMailHandlerTypeException
+     */
+    public function testGetMailHandlerWithNotInstanceOfMailerHandlerInterface()
+    {
+        $alias = 'foo';
+        $serviceName = 'foo_service';
+        $container = $this->getMock(Container::class, ['get', 'has']);
+        $container
+            ->expects(self::once())
+            ->method('get')
+            ->with($serviceName)
+            ->willReturn(new \stdClass())
+        ;
+        $container
+            ->method('has')
+            ->willReturn(true)
+        ;
+        $mailHandlerRegistry = new LazyMailHandlerRegistry($container);
+        $mailHandlerRegistry
+            ->registerMailHandler($alias, $serviceName)
+        ;
+        $mailHandlerRegistry->getMailHandler($alias);
     }
 
     /**
