@@ -32,7 +32,6 @@ class LazyMailHandlerRegistryTest extends \PHPUnit_Framework_TestCase
         self::assertSame($mailerHandler, $mailHandlerRegistry->getMailHandler($alias));
     }
 
-
     /**
      * @expectedException \VisualCraft\Bundle\MailerBundle\Exception\MissingMailHandlerException
      */
