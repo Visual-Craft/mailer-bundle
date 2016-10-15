@@ -10,7 +10,7 @@ class SwiftMailerProviderTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \VisualCraft\Bundle\MailerBundle\Exception\MissingSwiftMailerException
      */
-    public function testGetMailerNotRegisteredMailer()
+    public function testGetMailerWithNotRegisteredMailer()
     {
         $container = $this->getMock(Container::class);
         $mailerProvider = new SwiftMailerProvider($container, [], 'default');
@@ -20,7 +20,7 @@ class SwiftMailerProviderTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \LogicException
      */
-    public function testGetMailerRegisteredButNotExist()
+    public function testGetMailerWithRegisteredButNotExist()
     {
         $container = $this->getMock(Container::class);
         $container
@@ -34,7 +34,7 @@ class SwiftMailerProviderTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \LogicException
      */
-    public function testGetMailerRegisteredAndExistButNotInstanceOfSwiftMailer()
+    public function testGetMailerWithRegisteredAndExistButNotInstanceOfSwiftMailer()
     {
         $serviceName = 'foo';
         $alias = 'bar';
@@ -100,6 +100,4 @@ class SwiftMailerProviderTest extends \PHPUnit_Framework_TestCase
             ->getMock()
         ;
     }
-
-
 }
