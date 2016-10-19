@@ -20,11 +20,12 @@ class LazyMailHandlerRegistry implements MailHandlerRegistryInterface
 
     /**
      * @param ContainerInterface $container
+     * @param array $handlersMap
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(ContainerInterface $container, array $handlersMap)
     {
         $this->container = $container;
-        $this->handlersMap = [];
+        $this->handlersMap = $handlersMap;
     }
 
     /**

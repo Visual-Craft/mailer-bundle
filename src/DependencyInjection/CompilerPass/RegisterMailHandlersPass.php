@@ -16,6 +16,7 @@ class RegisterMailHandlersPass implements CompilerPassInterface
     {
         $registry = $container->getDefinition('visual_craft_mailer.mail_handler_registry.lazy');
         $handlers = $container->findTaggedServiceIds('visual_craft_mailer.mail_handler');
+        $handlersMap = [];
 
         foreach ($handlers as $id => $attributes) {
             $definition = $container->getDefinition($id);
@@ -53,10 +54,10 @@ class RegisterMailHandlersPass implements CompilerPassInterface
             }
 
             foreach ($attributes as $attribute) {
-                $registry
-                    ->addMethodCall('registerMailHandler', [$attribute['alias'], $id])
-                ;
+                $handlersMap[$attribute['alias']] = $id;
             }
         }
+
+        $registry->replaceArgument(1, $handlersMap);
     }
 }
