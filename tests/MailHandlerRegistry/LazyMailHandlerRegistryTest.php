@@ -24,10 +24,7 @@ class LazyMailHandlerRegistryTest extends \PHPUnit_Framework_TestCase
             ->method('has')
             ->willReturn(true)
         ;
-        $mailHandlerRegistry = new LazyMailHandlerRegistry($container);
-        $mailHandlerRegistry
-            ->registerMailHandler($alias, $serviceName)
-        ;
+        $mailHandlerRegistry = new LazyMailHandlerRegistry($container, [$alias => $serviceName]);
 
         self::assertSame($mailerHandler, $mailHandlerRegistry->getMailHandler($alias));
     }
@@ -38,7 +35,7 @@ class LazyMailHandlerRegistryTest extends \PHPUnit_Framework_TestCase
     public function testGetMailHandlerWithNotRegisterMailerHandler()
     {
         $container = $this->getMock(Container::class);
-        $mailHandlerRegistry = new LazyMailHandlerRegistry($container);
+        $mailHandlerRegistry = new LazyMailHandlerRegistry($container, []);
         $mailHandlerRegistry->getMailHandler('foo');
     }
 
@@ -52,10 +49,9 @@ class LazyMailHandlerRegistryTest extends \PHPUnit_Framework_TestCase
             ->method('has')
             ->willReturn(false)
         ;
-        $mailHandlerRegistry = new LazyMailHandlerRegistry($container);
         $serviceAlias = 'foo';
-        $mailHandlerRegistry->registerMailHandler($serviceAlias, 'foo_service');
-        $mailHandlerRegistry->getMailHandler('foo');
+        $mailHandlerRegistry = new LazyMailHandlerRegistry($container, [$serviceAlias => 'foo_service']);
+        $mailHandlerRegistry->getMailHandler($serviceAlias);
     }
 
     /**
@@ -76,10 +72,7 @@ class LazyMailHandlerRegistryTest extends \PHPUnit_Framework_TestCase
             ->method('has')
             ->willReturn(true)
         ;
-        $mailHandlerRegistry = new LazyMailHandlerRegistry($container);
-        $mailHandlerRegistry
-            ->registerMailHandler($alias, $serviceName)
-        ;
+        $mailHandlerRegistry = new LazyMailHandlerRegistry($container, [$alias => $serviceName]);
         $mailHandlerRegistry->getMailHandler($alias);
     }
 
