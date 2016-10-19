@@ -6,7 +6,7 @@ services:
 
     visual_craft_mailer.mail_handler_registry.lazy:
         class: VisualCraft\Bundle\MailerBundle\MailHandlerRegistry\LazyMailHandlerRegistry
-        arguments: [ '@service_container' ]
+        arguments: [ '@service_container', [] ]
         public: false
 
     visual_craft_mailer.mailer:
