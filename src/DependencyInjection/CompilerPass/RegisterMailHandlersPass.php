@@ -35,7 +35,7 @@ class RegisterMailHandlersPass implements CompilerPassInterface
                 ));
             }
 
-            $class = $definition->getClass();
+            $class = $container->getParameterBag()->resolveValue($definition->getClass());
 
             if (!is_subclass_of($class, MailHandlerInterface::class)) {
                 if (!class_exists($class, false)) {
