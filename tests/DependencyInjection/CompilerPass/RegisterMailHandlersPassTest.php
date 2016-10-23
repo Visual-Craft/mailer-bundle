@@ -51,6 +51,31 @@ class RegisterMailHandlersPassTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
+     */
+    public function testExceptionIfMailHandlerIsAbstract()
+    {
+        $mailHandlerRegistryDefinition = $this->getMock(Definition::class);
+        $container = $this->getMock(
+            ContainerBuilder::class,
+            ['findTaggedServiceIds', 'getDefinition']
+        );
+        $container
+            ->method('findTaggedServiceIds')
+            ->willReturn(['my_mail_handler_service1' => [['alias' => 'my_alias1']]])
+        ;
+        $container
+            ->method('getDefinition')
+            ->willReturnMap([
+                ['visual_craft_mailer.mail_handler_registry.lazy', $mailHandlerRegistryDefinition],
+                ['my_mail_handler_service1', $this->createMailHandlerDefinition(['isAbstract' => true])],
+            ])
+        ;
+        $registerMailHandlersPass = new RegisterMailHandlersPass();
+        $registerMailHandlersPass->process($container);
+    }
+
+    /**
      * @param array $customOptions
      * @return \PHPUnit_Framework_MockObject_MockObject|Definition
      */
