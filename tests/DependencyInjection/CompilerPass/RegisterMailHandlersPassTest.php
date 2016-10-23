@@ -51,9 +51,12 @@ class RegisterMailHandlersPassTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider getNotValidMailHandlerOptions
      * @expectedException \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
+     *
+     * @param array $options
      */
-    public function testExceptionIfMailHandlerIsAbstract()
+    public function testExceptionIfMailHandlerIsNotValid(array $options)
     {
         $mailHandlerRegistryDefinition = $this->getMock(Definition::class);
         $container = $this->getMock(
@@ -68,7 +71,7 @@ class RegisterMailHandlersPassTest extends \PHPUnit_Framework_TestCase
             ->method('getDefinition')
             ->willReturnMap([
                 ['visual_craft_mailer.mail_handler_registry.lazy', $mailHandlerRegistryDefinition],
-                ['my_mail_handler_service1', $this->createMailHandlerDefinition(['isAbstract' => true])],
+                ['my_mail_handler_service1', $this->createMailHandlerDefinition($options)],
             ])
         ;
         $registerMailHandlersPass = new RegisterMailHandlersPass();
@@ -76,55 +79,18 @@ class RegisterMailHandlersPassTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
+     * @return array
      */
-    public function testExceptionIfMailHandlerClassNotImplementedInterface()
+    public function getNotValidMailHandlerOptions()
     {
-        $mailHandlerRegistryDefinition = $this->getMock(Definition::class);
-        $container = $this->getMock(
-            ContainerBuilder::class,
-            ['findTaggedServiceIds', 'getDefinition']
-        );
-        $container
-            ->method('findTaggedServiceIds')
-            ->willReturn(['my_mail_handler_service1' => [['alias' => 'my_alias1']]])
-        ;
-        $container
-            ->method('getDefinition')
-            ->willReturnMap([
-                ['visual_craft_mailer.mail_handler_registry.lazy', $mailHandlerRegistryDefinition],
-                ['my_mail_handler_service1', $this->createMailHandlerDefinition(['class' => \stdClass::class])],
-            ])
-        ;
-        $registerMailHandlersPass = new RegisterMailHandlersPass();
-        $registerMailHandlersPass->process($container);
+        return [
+            [['isPublic' => false]],
+            [['isAbstract' => true]],
+            [['class' => \stdClass::class]],
+            [['class' => 'Foo']],
+        ];
     }
-
-    /**
-     * @expectedException \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
-     */
-    public function testExceptionIfMailHandlerIsPrivate()
-    {
-        $mailHandlerRegistryDefinition = $this->getMock(Definition::class);
-        $container = $this->getMock(
-            ContainerBuilder::class,
-            ['findTaggedServiceIds', 'getDefinition']
-        );
-        $container
-            ->method('findTaggedServiceIds')
-            ->willReturn(['my_mail_handler_service1' => [['alias' => 'my_alias1']]])
-        ;
-        $container
-            ->method('getDefinition')
-            ->willReturnMap([
-                ['visual_craft_mailer.mail_handler_registry.lazy', $mailHandlerRegistryDefinition],
-                ['my_mail_handler_service1', $this->createMailHandlerDefinition(['isPublic' => false])],
-            ])
-        ;
-        $registerMailHandlersPass = new RegisterMailHandlersPass();
-        $registerMailHandlersPass->process($container);
-    }
-
+    
     /**
      * @param array $customOptions
      * @return \PHPUnit_Framework_MockObject_MockObject|Definition
