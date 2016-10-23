@@ -4,6 +4,7 @@ namespace VisualCraft\Bundle\MailerBundle\Tests\DependencyInjection\CompilerPass
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use VisualCraft\Bundle\MailerBundle\DependencyInjection\CompilerPass\RegisterMailHandlersPass;
 use VisualCraft\Bundle\MailerBundle\MailHandlerInterface;
 
@@ -50,23 +51,31 @@ class RegisterMailHandlersPassTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param array $customOptions
      * @return \PHPUnit_Framework_MockObject_MockObject|Definition
      */
-    private function createMailHandlerDefinition()
+    private function createMailHandlerDefinition(array $customOptions = [])
     {
+        $optionsResolver = new OptionsResolver();
+        $optionsResolver->setDefaults([
+            'isAbstract' => false,
+            'isPublic' => true,
+            'class' => get_class($this->getMockForAbstractClass(MailHandlerInterface::class)),
+        ]);
+        $options = $optionsResolver->resolve($customOptions);
+
         $definition = $this->getMock(Definition::class);
-        $mailHandlerClass = get_class($this->getMockForAbstractClass(MailHandlerInterface::class));
         $definition
             ->method('getClass')
-            ->willReturn($mailHandlerClass)
+            ->willReturn($options['class'])
         ;
         $definition
             ->method('isAbstract')
-            ->willReturn(false)
+            ->willReturn($options['isAbstract'])
         ;
         $definition
             ->method('isPublic')
-            ->willReturn(true)
+            ->willReturn($options['isPublic'])
         ;
 
         return $definition;
