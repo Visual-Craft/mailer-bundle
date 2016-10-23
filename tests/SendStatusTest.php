@@ -14,7 +14,7 @@ class SendStatusTest extends \PHPUnit_Framework_TestCase
     public function testIsSuccessful($successRecipientsCount, $isSuccessful)
     {
         $sendStatus = new SendStatus($successRecipientsCount, []);
-        self::assertEquals($isSuccessful, $sendStatus->isSuccessful());
+        $this->assertSame($isSuccessful, $sendStatus->isSuccessful());
     }
 
     /**
@@ -34,13 +34,13 @@ class SendStatusTest extends \PHPUnit_Framework_TestCase
     {
         $successRecipientsCount = 2;
         $sendStatus = new SendStatus($successRecipientsCount, []);
-        self::assertEquals($successRecipientsCount, $sendStatus->getSuccessRecipientsCount());
+        $this->assertSame($successRecipientsCount, $sendStatus->getSuccessRecipientsCount());
     }
 
     public function testGetFailedRecipients()
     {
         $failedRecipients = ['foo'];
         $sendStatus = new SendStatus(2, $failedRecipients);
-        self::assertEquals($failedRecipients, $sendStatus->getFailedRecipients());
+        $this->assertSame($failedRecipients, $sendStatus->getFailedRecipients());
     }
 }

@@ -15,7 +15,7 @@ class LazyMailHandlerRegistryTest extends \PHPUnit_Framework_TestCase
         $mailerHandler = $this->createMailerHandler();
         $container = $this->getMock(Container::class, ['get', 'has']);
         $container
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('get')
             ->with($serviceName)
             ->willReturn($mailerHandler)
@@ -26,7 +26,7 @@ class LazyMailHandlerRegistryTest extends \PHPUnit_Framework_TestCase
         ;
         $mailHandlerRegistry = new LazyMailHandlerRegistry($container, [$alias => $serviceName]);
 
-        self::assertSame($mailerHandler, $mailHandlerRegistry->getMailHandler($alias));
+        $this->assertSame($mailerHandler, $mailHandlerRegistry->getMailHandler($alias));
     }
 
     /**
@@ -63,7 +63,7 @@ class LazyMailHandlerRegistryTest extends \PHPUnit_Framework_TestCase
         $serviceName = 'foo_service';
         $container = $this->getMock(Container::class, ['get', 'has']);
         $container
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('get')
             ->with($serviceName)
             ->willReturn(new \stdClass())

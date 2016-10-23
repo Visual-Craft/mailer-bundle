@@ -32,13 +32,13 @@ class RegisterMailHandlersPassTest extends \PHPUnit_Framework_TestCase
                 ['my_mail_handler_service2', $this->createMailHandlerDefinition()],
             ])
         ;
-        $container->expects(self::exactly(1))
+        $container->expects($this->once())
             ->method('findTaggedServiceIds')
             ->willReturn($services)
         ;
 
         $mailHandlerRegistryDefinition
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('replaceArgument')
             ->with(1, [
                 'my_alias1' => 'my_mail_handler_service1',

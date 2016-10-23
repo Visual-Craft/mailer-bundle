@@ -68,7 +68,7 @@ class SwiftMailerProviderTest extends \PHPUnit_Framework_TestCase
             ->willReturn($mailer)
         ;
         $mailerProvider = new SwiftMailerProvider($container, [$alias => $serviceName], 'default');
-        self::assertSame($mailer, $mailerProvider->getMailer($alias));
+        $this->assertSame($mailer, $mailerProvider->getMailer($alias));
     }
 
     public function testGetMailerReturnedValidDefaultMailer()
@@ -87,7 +87,7 @@ class SwiftMailerProviderTest extends \PHPUnit_Framework_TestCase
             ->willReturn($mailer)
         ;
         $mailerProvider = new SwiftMailerProvider($container, [$alias => $serviceName], $alias);
-        self::assertSame($mailer, $mailerProvider->getMailer());
+        $this->assertSame($mailer, $mailerProvider->getMailer());
     }
 
     /**

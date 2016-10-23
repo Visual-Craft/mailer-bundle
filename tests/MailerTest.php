@@ -22,11 +22,11 @@ class MailerTest extends \PHPUnit_Framework_TestCase
         ;
         $mailHandler = $this->getMock(MailHandlerInterface::class);
         $mailHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('configureOptions')
         ;
         $mailHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('buildMessage')
         ;
         $mailHandlerRegistry = $this->getMock(MailHandlerRegistryInterface::class);

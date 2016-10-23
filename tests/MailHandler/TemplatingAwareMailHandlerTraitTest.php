@@ -14,7 +14,7 @@ class TemplatingAwareMailHandlerTraitTest extends \PHPUnit_Framework_TestCase
         $willReturn = 'foo';
         $templating = $this->getMockForAbstractClass(EngineInterface::class);
         $templating
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('render')
             ->with($templateName, $templateParameters)
             ->willReturn($willReturn)
@@ -28,7 +28,7 @@ class TemplatingAwareMailHandlerTraitTest extends \PHPUnit_Framework_TestCase
         };
         $method = $closure->bindTo($templatingAwareMailHandler, $templatingAwareMailHandler);
 
-        self::assertSame($willReturn, $method($templateName, $templateParameters));
+        $this->assertSame($willReturn, $method($templateName, $templateParameters));
     }
 
     public function testRenderSubjectWillBeCalled()
@@ -37,7 +37,7 @@ class TemplatingAwareMailHandlerTraitTest extends \PHPUnit_Framework_TestCase
         $templateParameters = ['bar' => 'foo'];
         $templating = $this->getMockForAbstractClass(EngineInterface::class);
         $templating
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('render')
             ->with($templateName, $templateParameters)
         ;
@@ -74,7 +74,7 @@ class TemplatingAwareMailHandlerTraitTest extends \PHPUnit_Framework_TestCase
         };
         $method = $closure->bindTo($templatingAwareMailHandler, $templatingAwareMailHandler);
 
-        self::assertSame($expectedReturn, $method('boo.html.twig', ['bar' => 'bar']));
+        $this->assertSame($expectedReturn, $method('boo.html.twig', ['bar' => 'bar']));
     }
 
     /**
