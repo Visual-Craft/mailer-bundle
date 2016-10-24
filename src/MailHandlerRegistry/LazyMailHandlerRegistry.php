@@ -41,6 +41,7 @@ class LazyMailHandlerRegistry implements MailHandlerRegistryInterface
 
     /**
      * {@inheritdoc}
+     * @throws \LogicException
      */
     public function getMailHandler($alias)
     {
@@ -62,7 +63,12 @@ class LazyMailHandlerRegistry implements MailHandlerRegistryInterface
         $mailHandler = $this->container->get($this->handlersMap[$alias]);
 
         if (!$mailHandler instanceof MailHandlerInterface) {
-            throw new UnexpectedMailHandlerTypeException();
+             throw new \LogicException(sprintf(
+                "Expected service instance '%s' to be instance of %s, but got instance of '%s'.",
+                $this->handlersMap[$alias],
+                MailHandlerInterface::class,
+                get_class($mailHandler)
+            ));
         }
 
         return $mailHandler;

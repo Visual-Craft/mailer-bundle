@@ -55,7 +55,7 @@ class LazyMailHandlerRegistryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \VisualCraft\Bundle\MailerBundle\Exception\UnexpectedMailHandlerTypeException
+     * @expectedException \LogicException
      */
     public function testGetMailHandlerWithNotInstanceOfMailerHandlerInterface()
     {
