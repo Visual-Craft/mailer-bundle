@@ -5,14 +5,20 @@
     "description": "Bundle provide high-level API for sending emails using Swiftmailer",
     "homepage": "https://gitlab.visual-craft.com/common/visual-craft-mailer-bundle",
     "version": "dev-master",
-
     "autoload" : {
         "psr-4": { "VisualCraft\\Bundle\\MailerBundle\\": "src/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "VisualCraft\\Bundle\\MailerBundle\\Tests\\": "tests/" }
     },
     "require": {
         "php": ">=5.5.0",
         "symfony/framework-bundle": "~2.3|~3.0",
         "symfony/swiftmailer-bundle": "~2.3",
         "symfony/options-resolver": "~2.3|~3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.8",
+        "vladahejda/phpunit-assert-exception": "^1.0"
     }
 }
