@@ -9,6 +9,10 @@ services:
         arguments: [ '@service_container', [] ]
         public: false
 
+    visual_craft_mailer.message_factory:
+        class: VisualCraft\Bundle\MailerBundle\MessageFactory
+        arguments: ['@visual_craft_mailer.mail_handler_registry.lazy']
+
     visual_craft_mailer.mailer:
         class: VisualCraft\Bundle\MailerBundle\Mailer
-        arguments: [ '@visual_craft_mailer.swift_mailer_provider', '@visual_craft_mailer.mail_handler_registry.lazy' ]
+        arguments: [ '@visual_craft_mailer.swift_mailer_provider', '@visual_craft_mailer.message_factory' ]
