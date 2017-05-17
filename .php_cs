@@ -3,6 +3,7 @@
 return PhpCsFixer\Config::create()
     ->setRiskyAllowed(true)
     ->setUsingCache(false)
+    ->setCacheFile(__DIR__ . '/var/.php_cs.cache')
     ->setRules([
         '@Symfony' => true,
         '@Symfony:risky' => true,
