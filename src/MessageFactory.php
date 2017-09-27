@@ -54,6 +54,6 @@ class MessageFactory implements MessageFactoryInterface
      */
     protected function createMessageInstance()
     {
-        return \Swift_Message::newInstance();
+        return new \Swift_Message();
     }
 }
