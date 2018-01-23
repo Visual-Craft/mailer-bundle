@@ -90,10 +90,10 @@ class RegisterMailHandlersPassTest extends \PHPUnit_Framework_TestCase
             [['class' => 'Foo']],
         ];
     }
-    
+
     /**
      * @param array $customOptions
-     * @return \PHPUnit_Framework_MockObject_MockObject|Definition
+     * @return Definition|\PHPUnit_Framework_MockObject_MockObject
      */
     private function createMailHandlerDefinition(array $customOptions = [])
     {

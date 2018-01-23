@@ -4,7 +4,6 @@ namespace VisualCraft\Bundle\MailerBundle\MailHandlerRegistry;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use VisualCraft\Bundle\MailerBundle\Exception\MissingMailHandlerException;
-use VisualCraft\Bundle\MailerBundle\Exception\UnexpectedMailHandlerTypeException;
 use VisualCraft\Bundle\MailerBundle\MailHandlerInterface;
 use VisualCraft\Bundle\MailerBundle\MailHandlerRegistryInterface;
 
@@ -63,7 +62,7 @@ class LazyMailHandlerRegistry implements MailHandlerRegistryInterface
         $mailHandler = $this->container->get($this->handlersMap[$alias]);
 
         if (!$mailHandler instanceof MailHandlerInterface) {
-             throw new \LogicException(sprintf(
+            throw new \LogicException(sprintf(
                 "Expected service instance '%s' to be instance of %s, but got instance of '%s'.",
                 $this->handlersMap[$alias],
                 MailHandlerInterface::class,

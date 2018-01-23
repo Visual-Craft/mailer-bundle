@@ -77,7 +77,7 @@ class LazyMailHandlerRegistryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|MailHandlerInterface
+     * @return MailHandlerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function createMailerHandler()
     {
