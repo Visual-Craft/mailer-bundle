@@ -15,7 +15,8 @@ class RegisterMailHandlersPass implements CompilerPassInterface
     public function process(ContainerBuilder $container)
     {
         $registry = $container->getDefinition('visual_craft_mailer.mail_handler_registry.lazy');
-        $handlers = $container->findTaggedServiceIds('visual_craft_mailer.mail_handler');
+        $handlersTag = 'visual_craft_mailer.mail_handler';
+        $handlers = $container->findTaggedServiceIds($handlersTag);
         $handlersMap = [];
 
         foreach ($handlers as $id => $attributes) {
@@ -47,8 +48,9 @@ class RegisterMailHandlersPass implements CompilerPassInterface
                 }
 
                 throw new InvalidArgumentException(sprintf(
-                    'The service "%s" tagged "visual_craft_mailer.mail_handler" must be a implement interface %s".',
+                    'The service "%s" tagged "%s" must be a implement interface %s".',
                     $id,
+                    $handlersTag,
                     MailHandlerInterface::class
                 ));
             }
@@ -58,6 +60,8 @@ class RegisterMailHandlersPass implements CompilerPassInterface
             }
         }
 
-        $registry->replaceArgument(1, $handlersMap);
+        if ($handlersMap) {
+            $registry->replaceArgument(1, $handlersMap);
+        }
     }
 }

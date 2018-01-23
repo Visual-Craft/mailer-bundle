@@ -30,15 +30,6 @@ class LazyMailHandlerRegistry implements MailHandlerRegistryInterface
     }
 
     /**
-     * @param string $alias
-     * @param string $serviceId
-     */
-    public function registerMailHandler($alias, $serviceId)
-    {
-        $this->handlersMap[$alias] = $serviceId;
-    }
-
-    /**
      * {@inheritdoc}
      * @throws \LogicException
      */

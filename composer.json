@@ -5,7 +5,6 @@
     "description": "Bundle provide high-level API for sending emails using Swiftmailer",
     "homepage": "https://gitlab.visual-craft.com/common/visual-craft-mailer-bundle",
     "version": "dev-master",
-
     "autoload" : {
         "psr-4": { "VisualCraft\\Bundle\\MailerBundle\\": "src/" }
     },
