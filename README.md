@@ -1,7 +1,7 @@
 VisualCraftMailerBundle
 =======================
 
-Symfony framework bundle, which provides high-level API for sending emails using Swiftmailer
+Symfony framework bundle provides high-level API for sending emails using Swiftmailer
 
 
 Installation
@@ -48,7 +48,7 @@ Usage
     {
         public function configureOptions(OptionsResolver $optionsResolver)
         {
-            // configure options that should be provided to buildMessage method
+            // configure options which should be provided to buildMessage method
             $optionsResolver->setRequired(['to']);
         }
 
@@ -76,11 +76,11 @@ Usage
     $mailer = $this->container->get('visual_craft_mailer.mailer');
     $mailer->send('registration', ['to' => 'user@example.com']);
 
-### Generating mail body and subject with twig
-Symfony uses twig templates engine by default. To simplify injection of twig dependency to the MailerHandler, you can implement interface ```\VisualCraft\Bundle\MailerBundle\MailHandler\TwigAwareMailHandlerInterface``` in your MailHandler (you can use ```\VisualCraft\Bundle\MailerBundle\MailHandler\TwigAwareMailHandlerTrait``` for methods implementation). ```TwigAwareMailHandlerTrait``` also has methods to generate body and subject.
+### Generating mail body and subject with help of twig
+Symfony uses twig templates engine by default. In order to simplify injection of twig dependency to the MailerHandler you have to implement interface ```\VisualCraft\Bundle\MailerBundle\MailHandler\TwigAwareMailHandlerInterface``` in your MailHandler (you can use ```\VisualCraft\Bundle\MailerBundle\MailHandler\TwigAwareMailHandlerTrait``` for methods implementation). ```TwigAwareMailHandlerTrait``` also has additional methods to generate body and subject.
 
 
-Example handler
+Handler example
 ```php
 <?php
 
@@ -101,9 +101,9 @@ class RegistrationMailHandler implements MailHandlerInterface, TwigAwareMailHand
    {
        // build message
        $message
-           // use twig for render subject
+           // use twig to render subject
            ->setSubject($this->renderSubject('mail\registration_subject.html.twig', ['variable' => 'value']))
-           // use twig for render body
+           // use twig to render body
            ->setBody($this->renderBody('mail\registration_body.html.twig', ['variable' => 'value']))
        ;
    }
