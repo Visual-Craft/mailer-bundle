@@ -2,6 +2,7 @@
 
 namespace VisualCraft\Bundle\MailerBundle\Tests;
 
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use VisualCraft\Bundle\MailerBundle\MailHandlerInterface;
 use VisualCraft\Bundle\MailerBundle\MailHandlerRegistryInterface;
 use VisualCraft\Bundle\MailerBundle\MessageFactory;
@@ -29,5 +30,29 @@ class MessageFactoryTest extends \PHPUnit_Framework_TestCase
         $message = $messageFactory->createMessage('test');
 
         self::assertInstanceOf(\Swift_Message::class, $message);
+    }
+
+    /**
+     * @expectedException \VisualCraft\Bundle\MailerBundle\Exception\InvalidMailHandlerOptionsException
+     */
+    public function testThrowExceptionIfResolvingOptionFailed()
+    {
+        $mailHandler = $this->getMock(MailHandlerInterface::class);
+        $mailHandlerRegistry = $this->getMock(MailHandlerRegistryInterface::class);
+        $mailHandlerRegistry
+            ->method('getMailHandler')
+            ->willReturn($mailHandler)
+        ;
+        $optionResolver = $this->getMockBuilder(OptionsResolver::class)
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+        $optionResolver->method('resolve')->willThrowException(new \LogicException('Message'));
+        $messageFactory = $this->getMock(MessageFactory::class, ['createOptionsResolverInstance'], [$mailHandlerRegistry]);
+        $messageFactory
+            ->method('createOptionsResolverInstance')
+            ->willReturn($optionResolver)
+        ;
+        $messageFactory->createMessage('test');
     }
 }
