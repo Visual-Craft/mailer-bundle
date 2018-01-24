@@ -82,43 +82,32 @@ Symfony uses twig templates engine by default. To simplify injection of twig dep
 
 Example handler
 ```php
-   <?php
+<?php
 
-   namespace AppBundle\MailHandler;
+namespace AppBundle\MailHandler;
 
-   use Symfony\Component\OptionsResolver\OptionsResolver;
-   use VisualCraft\Bundle\MailerBundle\MailHandler\TwigAwareMailHandlerInterface;
-   use VisualCraft\Bundle\MailerBundle\MailHandler\TwigAwareMailHandlerTrait;
-   use VisualCraft\Bundle\MailerBundle\MailHandlerInterface;
+use VisualCraft\Bundle\MailerBundle\MailHandler\TwigAwareMailHandlerInterface;
+use VisualCraft\Bundle\MailerBundle\MailHandler\TwigAwareMailHandlerTrait;
+use VisualCraft\Bundle\MailerBundle\MailHandlerInterface;
 
-   class RegistrationMailHandler implements MailHandlerInterface, TwigAwareMailHandlerInterface
+class RegistrationMailHandler implements MailHandlerInterface, TwigAwareMailHandlerInterface
+{
+   use TwigAwareMailHandlerTrait;
+
+   /**
+    * {@inheritdoc}
+    */
+   public function buildMessage(\Swift_Message $message, array $options)
    {
-       use TwigAwareMailHandlerTrait;
-
-       /**
-        * {@inheritdoc}
-        */
-       public function configureOptions(OptionsResolver $optionsResolver)
-       {
-           // configure options that should be provided to buildMessage method
-           $optionsResolver->setRequired(['to']);
-       }
-
-       /**
-        * {@inheritdoc}
-        */
-       public function buildMessage(\Swift_Message $message, array $options)
-       {
-           // build message
-           $message
-                //use twig for render subject
-               ->setSubject($this->renderSubject('mail\registration_subject.html.twig', ['to' => $options['to']]))
-               ->setTo($options['to'])
-               //use twig for render body
-               ->setBody($this->renderBody('mail\registration_body.html.twig', ['to' => $options['to']]))
-           ;
-       }
+       // build message
+       $message
+           // use twig for render subject
+           ->setSubject($this->renderSubject('mail\registration_subject.html.twig', ['variable' => 'value']))
+           // use twig for render body
+           ->setBody($this->renderBody('mail\registration_body.html.twig', ['variable' => 'value']))
+       ;
    }
+}
 ```
 License
 -------
