@@ -5,6 +5,7 @@ namespace VisualCraft\Bundle\MailerBundle\Tests;
 use VisualCraft\Bundle\MailerBundle\Mailer;
 use VisualCraft\Bundle\MailerBundle\MailHandlerInterface;
 use VisualCraft\Bundle\MailerBundle\MailHandlerRegistryInterface;
+use VisualCraft\Bundle\MailerBundle\MessageFactoryInterface;
 use VisualCraft\Bundle\MailerBundle\SendStatus;
 use VisualCraft\Bundle\MailerBundle\SwiftMailerProvider;
 
@@ -20,20 +21,7 @@ class MailerTest extends \PHPUnit_Framework_TestCase
             ->method('send')
             ->willReturn(1)
         ;
-        $mailHandler = $this->getMock(MailHandlerInterface::class);
-        $mailHandler
-            ->expects($this->once())
-            ->method('configureOptions')
-        ;
-        $mailHandler
-            ->expects($this->once())
-            ->method('buildMessage')
-        ;
-        $mailHandlerRegistry = $this->getMock(MailHandlerRegistryInterface::class);
-        $mailHandlerRegistry
-            ->method('getMailHandler')
-            ->willReturn($mailHandler)
-        ;
+
         /** @var \PHPUnit_Framework_MockObject_MockObject|SwiftMailerProvider $mailerProvider */
         $mailerProvider = $this->getMockBuilder(SwiftMailerProvider::class)
             ->disableOriginalConstructor()
@@ -45,7 +33,14 @@ class MailerTest extends \PHPUnit_Framework_TestCase
             ->willReturn($mailer)
         ;
 
-        $mailer = new Mailer($mailerProvider, $mailHandlerRegistry);
-        self::assertEquals(new SendStatus(1, []), $mailer->send('foo', []));
+        $messageFactory = $this->getMock(MessageFactoryInterface::class);
+        $messageFactory
+            ->expects($this->once())
+            ->method('createMessage')
+            ->willReturn(\Swift_Message::newInstance())
+        ;
+
+        $mailer = new Mailer($mailerProvider, $messageFactory);
+        self::assertEquals(new SendStatus(1, []), $mailer->send('foo'));
     }
 }
