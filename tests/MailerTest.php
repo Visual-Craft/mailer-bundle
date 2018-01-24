@@ -3,8 +3,6 @@
 namespace VisualCraft\Bundle\MailerBundle\Tests;
 
 use VisualCraft\Bundle\MailerBundle\Mailer;
-use VisualCraft\Bundle\MailerBundle\MailHandlerInterface;
-use VisualCraft\Bundle\MailerBundle\MailHandlerRegistryInterface;
 use VisualCraft\Bundle\MailerBundle\MessageFactoryInterface;
 use VisualCraft\Bundle\MailerBundle\SendStatus;
 use VisualCraft\Bundle\MailerBundle\SwiftMailerProvider;
