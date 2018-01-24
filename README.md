@@ -76,6 +76,10 @@ Usage
     $mailer = $this->container->get('visual_craft_mailer.mailer');
     $mailer->send('registration', ['to' => 'user@example.com']);
 
+### Generating mail body and subject with twig
+Symfony uses twig templates engine by default. To simplify injection of twig dependency to the MailerHandler, you can implement interface \VisualCraft\Bundle\MailerBundle\MailHandler\TwigAwareMailHandlerInterface in MailHandler (you can use VisualCraft\Bundle\MailerBundle\MailHandler\TwigAwareMailHandlerTrait for methods implementation). TwigAwareMailHandlerTrait also has methods to generate body and subject.
+
+
 License
 -------
 

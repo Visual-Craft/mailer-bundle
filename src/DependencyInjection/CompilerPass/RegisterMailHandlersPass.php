@@ -5,12 +5,15 @@ namespace VisualCraft\Bundle\MailerBundle\DependencyInjection\CompilerPass;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
+use Symfony\Component\DependencyInjection\Reference;
+use VisualCraft\Bundle\MailerBundle\MailHandler\TwigAwareMailHandlerInterface;
 use VisualCraft\Bundle\MailerBundle\MailHandlerInterface;
 
 class RegisterMailHandlersPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}
+     * @throws InvalidArgumentException
      */
     public function process(ContainerBuilder $container)
     {
@@ -53,6 +56,14 @@ class RegisterMailHandlersPass implements CompilerPassInterface
                     $handlersTag,
                     MailHandlerInterface::class
                 ));
+            }
+
+            if (is_subclass_of($class, TwigAwareMailHandlerInterface::class)) {
+                if (!$container->hasDefinition('twig')) {
+                    throw new InvalidArgumentException(sprintf("The service '%s' is require for '%s'", 'twig', TwigAwareMailHandlerInterface::class));
+                }
+
+                $definition->addMethodCall('setTwigEnvironment', [new Reference('twig')]);
             }
 
             foreach ($attributes as $attribute) {
