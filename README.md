@@ -1,7 +1,7 @@
 VisualCraftMailerBundle
 =======================
 
-Symfony framework bundle provides high-level API for sending emails using Swiftmailer
+Symfony bundle provides high-level API for emails creation and sending
 
 
 Installation
@@ -76,8 +76,8 @@ Usage
     $mailer = $this->container->get('visual_craft_mailer.mailer');
     $mailer->send('registration', ['to' => 'user@example.com']);
 
-### Generating mail body and subject with help of twig
-Symfony uses twig templates engine by default. In order to simplify injection of twig dependency to the MailerHandler you have to implement interface ```\VisualCraft\Bundle\MailerBundle\MailHandler\TwigAwareMailHandlerInterface``` in your MailHandler (you can use ```\VisualCraft\Bundle\MailerBundle\MailHandler\TwigAwareMailHandlerTrait``` for methods implementation). ```TwigAwareMailHandlerTrait``` also has additional methods to generate body and subject.
+### Generating mail body and subject using twig templates
+In order to simplify injection of twig dependency to the MailerHandler you have to implement interface ```\VisualCraft\Bundle\MailerBundle\MailHandler\TwigAwareMailHandlerInterface``` in your MailHandler (you can use ```\VisualCraft\Bundle\MailerBundle\MailHandler\TwigAwareMailHandlerTrait``` for methods implementation). ```TwigAwareMailHandlerTrait``` also has additional methods to generate body and subject.
 
 
 Handler example
