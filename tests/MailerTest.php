@@ -35,7 +35,7 @@ class MailerTest extends \PHPUnit_Framework_TestCase
         $messageFactory
             ->expects($this->once())
             ->method('createMessage')
-            ->willReturn(\Swift_Message::newInstance())
+            ->willReturn(new \Swift_Message())
         ;
 
         $mailer = new Mailer($mailerProvider, $messageFactory);
