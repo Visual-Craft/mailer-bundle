@@ -3,15 +3,15 @@
 <phpunit bootstrap="vendor/autoload.php" colors="true">
     <testsuites>
         <testsuite name="Visual Craft Mailer Bundle Test Suite">
-            <directory suffix="Test.php">./tests</directory>
+            <directory suffix="Test.php">tests</directory>
         </testsuite>
     </testsuites>
 
     <filter>
         <whitelist>
-            <directory suffix=".php">./src/</directory>
+            <directory suffix=".php">src</directory>
             <exclude>
-                <directory>./src/Resources</directory>
+                <directory>src/Resources</directory>
             </exclude>
         </whitelist>
     </filter>
