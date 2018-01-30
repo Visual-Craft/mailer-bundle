@@ -2,10 +2,13 @@
 
 namespace VisualCraft\Bundle\MailerBundle;
 
+use VisualCraft\Bundle\MailerBundle\MessageFactory\MessageFactoryInterface;
+use VisualCraft\Bundle\MailerBundle\SwiftMailerProvider\SwiftMailerProviderInterface;
+
 class Mailer
 {
     /**
-     * @var SwiftMailerProvider
+     * @var SwiftMailerProviderInterface
      */
     private $mailerProvider;
 
@@ -15,10 +18,10 @@ class Mailer
     private $messageFactory;
 
     /**
-     * @param SwiftMailerProvider $mailerProvider
+     * @param SwiftMailerProviderInterface $mailerProvider
      * @param MessageFactoryInterface $messageFactory
      */
-    public function __construct(SwiftMailerProvider $mailerProvider, MessageFactoryInterface $messageFactory)
+    public function __construct(SwiftMailerProviderInterface $mailerProvider, MessageFactoryInterface $messageFactory)
     {
         $this->mailerProvider = $mailerProvider;
         $this->messageFactory = $messageFactory;

@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualCraft\Bundle\MailerBundle;
+namespace VisualCraft\Bundle\MailerBundle\MailHandler;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

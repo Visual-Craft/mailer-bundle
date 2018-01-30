@@ -6,8 +6,8 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Reference;
+use VisualCraft\Bundle\MailerBundle\MailHandler\MailHandlerInterface;
 use VisualCraft\Bundle\MailerBundle\MailHandler\TwigAwareMailHandlerInterface;
-use VisualCraft\Bundle\MailerBundle\MailHandlerInterface;
 
 class RegisterMailHandlersPass implements CompilerPassInterface
 {

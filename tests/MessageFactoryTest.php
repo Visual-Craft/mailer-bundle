@@ -3,9 +3,9 @@
 namespace VisualCraft\Bundle\MailerBundle\Tests;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use VisualCraft\Bundle\MailerBundle\MailHandlerInterface;
-use VisualCraft\Bundle\MailerBundle\MailHandlerRegistryInterface;
-use VisualCraft\Bundle\MailerBundle\MessageFactory;
+use VisualCraft\Bundle\MailerBundle\MailHandler\MailHandlerInterface;
+use VisualCraft\Bundle\MailerBundle\MailHandlerRegistry\MailHandlerRegistryInterface;
+use VisualCraft\Bundle\MailerBundle\MessageFactory\MessageFactory;
 
 class MessageFactoryTest extends \PHPUnit_Framework_TestCase
 {

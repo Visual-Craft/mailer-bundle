@@ -6,7 +6,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use VisualCraft\Bundle\MailerBundle\DependencyInjection\CompilerPass\RegisterMailHandlersPass;
-use VisualCraft\Bundle\MailerBundle\MailHandlerInterface;
+use VisualCraft\Bundle\MailerBundle\MailHandler\MailHandlerInterface;
 
 class RegisterMailHandlersPassTest extends \PHPUnit_Framework_TestCase
 {

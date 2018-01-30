@@ -1,9 +1,10 @@
 <?php
 
-namespace VisualCraft\Bundle\MailerBundle;
+namespace VisualCraft\Bundle\MailerBundle\MessageFactory;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use VisualCraft\Bundle\MailerBundle\Exception\InvalidMailHandlerOptionsException;
+use VisualCraft\Bundle\MailerBundle\MailHandlerRegistry\MailHandlerRegistryInterface;
 
 class MessageFactory implements MessageFactoryInterface
 {

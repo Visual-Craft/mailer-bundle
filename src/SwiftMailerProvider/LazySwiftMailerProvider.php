@@ -1,11 +1,11 @@
 <?php
 
-namespace VisualCraft\Bundle\MailerBundle;
+namespace VisualCraft\Bundle\MailerBundle\SwiftMailerProvider;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use VisualCraft\Bundle\MailerBundle\Exception\MissingSwiftMailerException;
 
-class SwiftMailerProvider
+class LazySwiftMailerProvider implements SwiftMailerProviderInterface
 {
     /**
      * @var ContainerInterface
@@ -35,8 +35,7 @@ class SwiftMailerProvider
     }
 
     /**
-     * @param string|null $name
-     * @return \Swift_Mailer
+     * {@inheritdoc}
      */
     public function getMailer($name = null)
     {

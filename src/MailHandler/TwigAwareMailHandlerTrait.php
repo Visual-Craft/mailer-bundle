@@ -2,8 +2,6 @@
 
 namespace VisualCraft\Bundle\MailerBundle\MailHandler;
 
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
-
 trait TwigAwareMailHandlerTrait
 {
     /**
@@ -12,7 +10,7 @@ trait TwigAwareMailHandlerTrait
     protected $twigEnvironment;
 
     /**
-     * @param EngineInterface $value
+     * @param \Twig_Environment $value
      */
     public function setTwigEnvironment(\Twig_Environment $value)
     {

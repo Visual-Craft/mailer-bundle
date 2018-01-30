@@ -3,7 +3,7 @@
 namespace VisualCraft\Bundle\MailerBundle\Tests\MailHandlerRegistry;
 
 use Symfony\Component\DependencyInjection\Container;
-use VisualCraft\Bundle\MailerBundle\MailHandlerInterface;
+use VisualCraft\Bundle\MailerBundle\MailHandler\MailHandlerInterface;
 use VisualCraft\Bundle\MailerBundle\MailHandlerRegistry\LazyMailHandlerRegistry;
 
 class LazyMailHandlerRegistryTest extends \PHPUnit_Framework_TestCase

@@ -3,9 +3,9 @@
 namespace VisualCraft\Bundle\MailerBundle\Tests;
 
 use Symfony\Component\DependencyInjection\Container;
-use VisualCraft\Bundle\MailerBundle\SwiftMailerProvider;
+use VisualCraft\Bundle\MailerBundle\SwiftMailerProvider\LazySwiftMailerProvider;
 
-class SwiftMailerProviderTest extends \PHPUnit_Framework_TestCase
+class LazySwiftMailerProviderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @expectedException \VisualCraft\Bundle\MailerBundle\Exception\MissingSwiftMailerException
@@ -13,7 +13,7 @@ class SwiftMailerProviderTest extends \PHPUnit_Framework_TestCase
     public function testGetMailerWithNotRegisteredMailer()
     {
         $container = $this->getMock(Container::class);
-        $mailerProvider = new SwiftMailerProvider($container, [], 'default');
+        $mailerProvider = new LazySwiftMailerProvider($container, [], 'default');
         $mailerProvider->getMailer('foo');
     }
 
@@ -27,7 +27,7 @@ class SwiftMailerProviderTest extends \PHPUnit_Framework_TestCase
             ->method('has')
             ->willReturn(false)
         ;
-        $mailerProvider = new SwiftMailerProvider($container, ['foo' => 'bar'], 'default');
+        $mailerProvider = new LazySwiftMailerProvider($container, ['foo' => 'bar'], 'default');
         $mailerProvider->getMailer('foo');
     }
 
@@ -48,7 +48,7 @@ class SwiftMailerProviderTest extends \PHPUnit_Framework_TestCase
             ->with($serviceName)
             ->willReturn(new \stdClass())
         ;
-        $mailerProvider = new SwiftMailerProvider($container, [$alias => $serviceName], 'default');
+        $mailerProvider = new LazySwiftMailerProvider($container, [$alias => $serviceName], 'default');
         $mailerProvider->getMailer($alias);
     }
 
@@ -67,7 +67,7 @@ class SwiftMailerProviderTest extends \PHPUnit_Framework_TestCase
             ->with($serviceName)
             ->willReturn($mailer)
         ;
-        $mailerProvider = new SwiftMailerProvider($container, [$alias => $serviceName], 'default');
+        $mailerProvider = new LazySwiftMailerProvider($container, [$alias => $serviceName], 'default');
         $this->assertSame($mailer, $mailerProvider->getMailer($alias));
     }
 
@@ -86,7 +86,7 @@ class SwiftMailerProviderTest extends \PHPUnit_Framework_TestCase
             ->with($serviceName)
             ->willReturn($mailer)
         ;
-        $mailerProvider = new SwiftMailerProvider($container, [$alias => $serviceName], $alias);
+        $mailerProvider = new LazySwiftMailerProvider($container, [$alias => $serviceName], $alias);
         $this->assertSame($mailer, $mailerProvider->getMailer());
     }
 

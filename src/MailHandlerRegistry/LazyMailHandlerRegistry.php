@@ -4,8 +4,7 @@ namespace VisualCraft\Bundle\MailerBundle\MailHandlerRegistry;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use VisualCraft\Bundle\MailerBundle\Exception\MissingMailHandlerException;
-use VisualCraft\Bundle\MailerBundle\MailHandlerInterface;
-use VisualCraft\Bundle\MailerBundle\MailHandlerRegistryInterface;
+use VisualCraft\Bundle\MailerBundle\MailHandler\MailHandlerInterface;
 
 class LazyMailHandlerRegistry implements MailHandlerRegistryInterface
 {

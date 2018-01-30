@@ -3,9 +3,9 @@
 namespace VisualCraft\Bundle\MailerBundle\Tests;
 
 use VisualCraft\Bundle\MailerBundle\Mailer;
-use VisualCraft\Bundle\MailerBundle\MessageFactoryInterface;
+use VisualCraft\Bundle\MailerBundle\MessageFactory\MessageFactoryInterface;
 use VisualCraft\Bundle\MailerBundle\SendStatus;
-use VisualCraft\Bundle\MailerBundle\SwiftMailerProvider;
+use VisualCraft\Bundle\MailerBundle\SwiftMailerProvider\SwiftMailerProviderInterface;
 
 class MailerTest extends \PHPUnit_Framework_TestCase
 {
@@ -20,8 +20,8 @@ class MailerTest extends \PHPUnit_Framework_TestCase
             ->willReturn(1)
         ;
 
-        /** @var \PHPUnit_Framework_MockObject_MockObject|SwiftMailerProvider $mailerProvider */
-        $mailerProvider = $this->getMockBuilder(SwiftMailerProvider::class)
+        /** @var \PHPUnit_Framework_MockObject_MockObject|SwiftMailerProviderInterface $mailerProvider */
+        $mailerProvider = $this->getMockBuilder(SwiftMailerProviderInterface::class)
             ->disableOriginalConstructor()
             ->getMock()
         ;
