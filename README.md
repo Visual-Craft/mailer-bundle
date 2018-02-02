@@ -1,6 +1,8 @@
 VisualCraftMailerBundle
 =======================
 
+[![Build Status](https://travis-ci.org/Visual-Craft/mailer-bundle.svg?branch=master)](https://travis-ci.org/Visual-Craft/mailer-bundle)
+
 Symfony bundle which provides high-level API for emails creation and sending
 
 
