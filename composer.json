@@ -3,8 +3,7 @@
     "license": "MIT",
     "type": "symfony-bundle",
     "description": "Symfony bundle which provides high-level API for emails creation and sending",
-    "homepage": "https://gitlab.visual-craft.com/common/visual-craft-mailer-bundle",
-    "version": "dev-master",
+    "homepage": "https://github.com/Visual-Craft/mailer-bundle",
     "autoload" : {
         "psr-4": { "VisualCraft\\Bundle\\MailerBundle\\": "src/" }
     },
