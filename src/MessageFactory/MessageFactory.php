@@ -3,20 +3,20 @@
 namespace VisualCraft\Bundle\MailerBundle\MessageFactory;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use VisualCraft\Bundle\MailerBundle\Exception\InvalidMailHandlerOptionsException;
-use VisualCraft\Bundle\MailerBundle\MailHandlerRegistry\MailHandlerRegistryInterface;
+use VisualCraft\Bundle\MailerBundle\Exception\InvalidMailTypeOptionsException;
+use VisualCraft\Bundle\MailerBundle\MailTypeRegistry\MailTypeRegistryInterface;
 
 class MessageFactory implements MessageFactoryInterface
 {
     /**
-     * @var MailHandlerRegistryInterface
+     * @var MailTypeRegistryInterface
      */
     private $registry;
 
     /**
-     * @param MailHandlerRegistryInterface $registry
+     * @param MailTypeRegistryInterface $registry
      */
-    public function __construct(MailHandlerRegistryInterface $registry)
+    public function __construct(MailTypeRegistryInterface $registry)
     {
         $this->registry = $registry;
     }
@@ -24,20 +24,20 @@ class MessageFactory implements MessageFactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function createMessage($alias, array $options = [])
+    public function createMessage($type, array $options = [])
     {
-        $handler = $this->registry->getMailHandler($alias);
+        $mailType = $this->registry->getMailType($type);
         $optionsResolver = $this->createOptionsResolverInstance();
-        $handler->configureOptions($optionsResolver);
+        $mailType->configureOptions($optionsResolver);
 
         try {
             $options = $optionsResolver->resolve($options);
         } catch (\Exception $e) {
-            throw new InvalidMailHandlerOptionsException(sprintf("Invalid options are provided for mailer handler '%s'.", $alias), 0, $e);
+            throw new InvalidMailTypeOptionsException(sprintf("Invalid options are provided for mail type '%s'.", $type), 0, $e);
         }
 
         $message = $this->createMessageInstance();
-        $handler->buildMessage($message, $options);
+        $mailType->buildMessage($message, $options);
 
         return $message;
     }

@@ -6,10 +6,10 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Reference;
-use VisualCraft\Bundle\MailerBundle\MailHandler\MailHandlerInterface;
-use VisualCraft\Bundle\MailerBundle\MailHandler\TwigAwareMailHandlerInterface;
+use VisualCraft\Bundle\MailerBundle\MailType\MailTypeInterface;
+use VisualCraft\Bundle\MailerBundle\TwigAwareInterface;
 
-class RegisterMailHandlersPass implements CompilerPassInterface
+class RegisterMailTypesPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}
@@ -17,12 +17,12 @@ class RegisterMailHandlersPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $registry = $container->getDefinition('visual_craft_mailer.mail_handler_registry.lazy');
-        $handlersTag = 'visual_craft_mailer.mail_handler';
-        $handlers = $container->findTaggedServiceIds($handlersTag);
-        $handlersMap = [];
+        $registry = $container->getDefinition('visual_craft_mailer.mail_type_registry.lazy');
+        $mailTypesTag = 'visual_craft_mailer.mail_type';
+        $mailTypes = $container->findTaggedServiceIds($mailTypesTag);
+        $mailTypesMap = [];
 
-        foreach ($handlers as $id => $attributes) {
+        foreach ($mailTypes as $id => $attributes) {
             $definition = $container->getDefinition($id);
 
             if (!$definition->isPublic()) {
@@ -41,7 +41,7 @@ class RegisterMailHandlersPass implements CompilerPassInterface
 
             $class = $container->getParameterBag()->resolveValue($definition->getClass());
 
-            if (!is_subclass_of($class, MailHandlerInterface::class)) {
+            if (!is_subclass_of($class, MailTypeInterface::class)) {
                 if (!class_exists($class, false)) {
                     throw new InvalidArgumentException(sprintf(
                         'Class "%s" used for service "%s" cannot be found.',
@@ -53,26 +53,36 @@ class RegisterMailHandlersPass implements CompilerPassInterface
                 throw new InvalidArgumentException(sprintf(
                     'The service "%s" tagged "%s" must be a implement interface %s".',
                     $id,
-                    $handlersTag,
-                    MailHandlerInterface::class
+                    $mailTypesTag,
+                    MailTypeInterface::class
                 ));
             }
 
-            if (is_subclass_of($class, TwigAwareMailHandlerInterface::class)) {
+            if (is_subclass_of($class, TwigAwareInterface::class)) {
                 if (!$container->hasDefinition('twig')) {
-                    throw new InvalidArgumentException(sprintf("The service '%s' is require for '%s'", 'twig', TwigAwareMailHandlerInterface::class));
+                    throw new InvalidArgumentException(sprintf("The service '%s' is require for '%s'", 'twig', TwigAwareInterface::class));
                 }
 
-                $definition->addMethodCall('setTwigEnvironment', [new Reference('twig')]);
+                $definition->addMethodCall('setTwig', [new Reference('twig')]);
             }
 
+            $noType = false;
+
             foreach ($attributes as $attribute) {
-                $handlersMap[$attribute['alias']] = $id;
+                if (isset($attribute['type'])) {
+                    $mailTypesMap[$attribute['type']] = $id;
+                } else {
+                    $noType = true;
+                }
+            }
+
+            if ($noType) {
+                $mailTypesMap[$definition->getClass()] = $id;
             }
         }
 
-        if ($handlersMap) {
-            $registry->replaceArgument(1, $handlersMap);
+        if ($mailTypesMap) {
+            $registry->replaceArgument(1, $mailTypesMap);
         }
     }
 }

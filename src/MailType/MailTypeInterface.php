@@ -1,10 +1,10 @@
 <?php
 
-namespace VisualCraft\Bundle\MailerBundle\MailHandler;
+namespace VisualCraft\Bundle\MailerBundle\MailType;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-interface MailHandlerInterface
+interface MailTypeInterface
 {
     /**
      * @param OptionsResolver $optionsResolver

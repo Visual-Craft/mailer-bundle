@@ -1,20 +1,20 @@
 <?php
 
-namespace VisualCraft\Bundle\MailerBundle\MailHandler;
+namespace VisualCraft\Bundle\MailerBundle;
 
-trait TwigAwareMailHandlerTrait
+trait TwigMailRendererTrait
 {
     /**
      * @var \Twig_Environment
      */
-    protected $twigEnvironment;
+    protected $twig;
 
     /**
      * @param \Twig_Environment $value
      */
-    public function setTwigEnvironment(\Twig_Environment $value)
+    public function setTwig(\Twig_Environment $value)
     {
-        $this->twigEnvironment = $value;
+        $this->twig = $value;
     }
 
     /**
@@ -25,7 +25,7 @@ trait TwigAwareMailHandlerTrait
      */
     protected function renderBody($template, array $parameters = [])
     {
-        return $this->twigEnvironment->render($template, $parameters);
+        return $this->twig->render($template, $parameters);
     }
 
     /**
@@ -36,6 +36,6 @@ trait TwigAwareMailHandlerTrait
      */
     protected function renderSubject($template, array $parameters = [])
     {
-        return trim($this->twigEnvironment->render($template, $parameters));
+        return trim($this->twig->render($template, $parameters));
     }
 }

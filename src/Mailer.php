@@ -28,14 +28,14 @@ class Mailer
     }
 
     /**
-     * @param string $alias
+     * @param string $type
      * @param array $options
      * @param string|null $swiftMailerName
      * @return SendStatus
      */
-    public function send($alias, array $options = [], $swiftMailerName = null)
+    public function send($type, array $options = [], $swiftMailerName = null)
     {
-        $message = $this->messageFactory->createMessage($alias, $options);
+        $message = $this->messageFactory->createMessage($type, $options);
         $mailer = $this->mailerProvider->getMailer($swiftMailerName);
         $failedRecipients = [];
         $sent = $mailer->send($message, $failedRecipients);
