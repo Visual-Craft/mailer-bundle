@@ -2,7 +2,7 @@
     "name" : "visual-craft/mailer-bundle",
     "license": "MIT",
     "type": "symfony-bundle",
-    "description": "Bundle provide high-level API for sending emails using Swiftmailer",
+    "description": "Symfony bundle which provides high-level API for emails creation and sending",
     "homepage": "https://gitlab.visual-craft.com/common/visual-craft-mailer-bundle",
     "version": "dev-master",
     "autoload" : {
@@ -22,6 +22,6 @@
         "symfony/twig-bundle": "~2.3|~3.0"
     },
     "suggest": {
-        "symfony/twig-bundle": "For using the twig template engine"
+        "symfony/twig-bundle": "To use the twig for rendering mail body/subject"
     }
 }

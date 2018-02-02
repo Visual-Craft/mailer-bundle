@@ -2,9 +2,9 @@
 
 namespace VisualCraft\Bundle\MailerBundle\Tests\MailHandler;
 
-use VisualCraft\Bundle\MailerBundle\MailHandler\TwigAwareMailHandlerTrait;
+use VisualCraft\Bundle\MailerBundle\TwigMailRendererTrait;
 
-class TwigAwareMailHandlerTraitTest extends \PHPUnit_Framework_TestCase
+class TwigMailRendererTraitTest extends \PHPUnit_Framework_TestCase
 {
     public function testRenderBody()
     {
@@ -22,10 +22,10 @@ class TwigAwareMailHandlerTraitTest extends \PHPUnit_Framework_TestCase
             ->willReturn($willReturn)
         ;
 
-        $twigAwareMailHandler = $this->getMockForTrait(TwigAwareMailHandlerTrait::class);
-        $twigAwareMailHandler->setTwigEnvironment($twig);
+        $twigAwareMailHandler = $this->getMockForTrait(TwigMailRendererTrait::class);
+        $twigAwareMailHandler->setTwig($twig);
         $closure = function ($template, $parameters) {
-            /** @var $this TwigAwareMailHandlerTrait */
+            /** @var $this TwigMailRendererTrait */
             return $this->renderBody($template, $parameters);
         };
         $method = $closure->bindTo($twigAwareMailHandler, $twigAwareMailHandler);
@@ -47,10 +47,10 @@ class TwigAwareMailHandlerTraitTest extends \PHPUnit_Framework_TestCase
             ->with($templateName, $templateParameters)
         ;
 
-        $twigAwareMailHandler = $this->getMockForTrait(TwigAwareMailHandlerTrait::class);
-        $twigAwareMailHandler->setTwigEnvironment($twig);
+        $twigAwareMailHandler = $this->getMockForTrait(TwigMailRendererTrait::class);
+        $twigAwareMailHandler->setTwig($twig);
         $closure = function ($template, $parameters) {
-            /** @var $this TwigAwareMailHandlerTrait */
+            /** @var $this TwigMailRendererTrait */
             return $this->renderSubject($template, $parameters);
         };
         $method = $closure->bindTo($twigAwareMailHandler, $twigAwareMailHandler);
@@ -74,10 +74,10 @@ class TwigAwareMailHandlerTraitTest extends \PHPUnit_Framework_TestCase
             ->willReturn($templateEngineReturn)
         ;
 
-        $twigAwareMailHandler = $this->getMockForTrait(TwigAwareMailHandlerTrait::class);
-        $twigAwareMailHandler->setTwigEnvironment($twig);
+        $twigAwareMailHandler = $this->getMockForTrait(TwigMailRendererTrait::class);
+        $twigAwareMailHandler->setTwig($twig);
         $closure = function ($template, $parameters) {
-            /** @var $this TwigAwareMailHandlerTrait */
+            /** @var $this TwigMailRendererTrait */
             return $this->renderSubject($template, $parameters);
         };
         $method = $closure->bindTo($twigAwareMailHandler, $twigAwareMailHandler);

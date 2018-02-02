@@ -10,20 +10,20 @@ services:
         public: false
 
 
-    visual_craft_mailer.mail_handler_registry.lazy:
-        class: VisualCraft\Bundle\MailerBundle\MailHandlerRegistry\LazyMailHandlerRegistry
+    visual_craft_mailer.mail_type_registry.lazy:
+        class: VisualCraft\Bundle\MailerBundle\MailTypeRegistry\LazyMailTypeRegistry
         arguments: [ '@service_container', [] ]
         public: false
 
-    visual_craft_mailer.mail_handler_registry:
-        class: VisualCraft\Bundle\MailerBundle\MailHandlerRegistry\MailHandlerRegistryInterface
-        alias: visual_craft_mailer.mail_handler_registry.lazy
+    visual_craft_mailer.mail_type_registry:
+        class: VisualCraft\Bundle\MailerBundle\MailTypeRegistry\MailTypeRegistryInterface
+        alias: visual_craft_mailer.mail_type_registry.lazy
         public: false
 
 
     visual_craft_mailer.message_factory.default:
         class: VisualCraft\Bundle\MailerBundle\MessageFactory\MessageFactory
-        arguments: ['@visual_craft_mailer.mail_handler_registry.lazy']
+        arguments: ['@visual_craft_mailer.mail_type_registry']
         public: false
 
     visual_craft_mailer.message_factory:
