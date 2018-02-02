@@ -3,15 +3,15 @@
 namespace VisualCraft\Bundle\MailerBundle\Tests;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use VisualCraft\Bundle\MailerBundle\MailHandler\MailHandlerInterface;
-use VisualCraft\Bundle\MailerBundle\MailHandlerRegistry\MailHandlerRegistryInterface;
+use VisualCraft\Bundle\MailerBundle\MailType\MailTypeInterface;
+use VisualCraft\Bundle\MailerBundle\MailTypeRegistry\MailTypeRegistryInterface;
 use VisualCraft\Bundle\MailerBundle\MessageFactory\MessageFactory;
 
 class MessageFactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testMessageCreated()
     {
-        $mailHandler = $this->getMock(MailHandlerInterface::class);
+        $mailHandler = $this->getMock(MailTypeInterface::class);
         $mailHandler
             ->expects($this->once())
             ->method('configureOptions')
@@ -20,9 +20,9 @@ class MessageFactoryTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('buildMessage')
         ;
-        $mailHandlerRegistry = $this->getMock(MailHandlerRegistryInterface::class);
+        $mailHandlerRegistry = $this->getMock(MailTypeRegistryInterface::class);
         $mailHandlerRegistry
-            ->method('getMailHandler')
+            ->method('getMailType')
             ->willReturn($mailHandler)
         ;
 
@@ -33,14 +33,14 @@ class MessageFactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \VisualCraft\Bundle\MailerBundle\Exception\InvalidMailHandlerOptionsException
+     * @expectedException \VisualCraft\Bundle\MailerBundle\Exception\InvalidMailTypeOptionsException
      */
     public function testThrowExceptionIfResolvingOptionFailed()
     {
-        $mailHandler = $this->getMock(MailHandlerInterface::class);
-        $mailHandlerRegistry = $this->getMock(MailHandlerRegistryInterface::class);
+        $mailHandler = $this->getMock(MailTypeInterface::class);
+        $mailHandlerRegistry = $this->getMock(MailTypeRegistryInterface::class);
         $mailHandlerRegistry
-            ->method('getMailHandler')
+            ->method('getMailType')
             ->willReturn($mailHandler)
         ;
         $optionResolver = $this->getMockBuilder(OptionsResolver::class)

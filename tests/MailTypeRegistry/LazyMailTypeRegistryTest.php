@@ -3,10 +3,10 @@
 namespace VisualCraft\Bundle\MailerBundle\Tests\MailHandlerRegistry;
 
 use Symfony\Component\DependencyInjection\Container;
-use VisualCraft\Bundle\MailerBundle\MailHandler\MailHandlerInterface;
-use VisualCraft\Bundle\MailerBundle\MailHandlerRegistry\LazyMailHandlerRegistry;
+use VisualCraft\Bundle\MailerBundle\MailType\MailTypeInterface;
+use VisualCraft\Bundle\MailerBundle\MailTypeRegistry\LazyMailTypeRegistry;
 
-class LazyMailHandlerRegistryTest extends \PHPUnit_Framework_TestCase
+class LazyMailTypeRegistryTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetMailHandlerReturnHandlerTest()
     {
@@ -24,23 +24,23 @@ class LazyMailHandlerRegistryTest extends \PHPUnit_Framework_TestCase
             ->method('has')
             ->willReturn(true)
         ;
-        $mailHandlerRegistry = new LazyMailHandlerRegistry($container, [$alias => $serviceName]);
+        $mailHandlerRegistry = new LazyMailTypeRegistry($container, [$alias => $serviceName]);
 
-        $this->assertSame($mailerHandler, $mailHandlerRegistry->getMailHandler($alias));
+        $this->assertSame($mailerHandler, $mailHandlerRegistry->getMailType($alias));
     }
 
     /**
-     * @expectedException \VisualCraft\Bundle\MailerBundle\Exception\MissingMailHandlerException
+     * @expectedException \VisualCraft\Bundle\MailerBundle\Exception\MissingMailTypeException
      */
     public function testGetMailHandlerWithNotRegisterMailerHandler()
     {
         $container = $this->getMock(Container::class);
-        $mailHandlerRegistry = new LazyMailHandlerRegistry($container, []);
-        $mailHandlerRegistry->getMailHandler('foo');
+        $mailHandlerRegistry = new LazyMailTypeRegistry($container, []);
+        $mailHandlerRegistry->getMailType('foo');
     }
 
     /**
-     * @expectedException \VisualCraft\Bundle\MailerBundle\Exception\MissingMailHandlerException
+     * @expectedException \RuntimeException
      */
     public function testGetMailHandlerWithRegisteredBytNotExistingService()
     {
@@ -50,8 +50,8 @@ class LazyMailHandlerRegistryTest extends \PHPUnit_Framework_TestCase
             ->willReturn(false)
         ;
         $serviceAlias = 'foo';
-        $mailHandlerRegistry = new LazyMailHandlerRegistry($container, [$serviceAlias => 'foo_service']);
-        $mailHandlerRegistry->getMailHandler($serviceAlias);
+        $mailHandlerRegistry = new LazyMailTypeRegistry($container, [$serviceAlias => 'foo_service']);
+        $mailHandlerRegistry->getMailType($serviceAlias);
     }
 
     /**
@@ -72,15 +72,15 @@ class LazyMailHandlerRegistryTest extends \PHPUnit_Framework_TestCase
             ->method('has')
             ->willReturn(true)
         ;
-        $mailHandlerRegistry = new LazyMailHandlerRegistry($container, [$alias => $serviceName]);
-        $mailHandlerRegistry->getMailHandler($alias);
+        $mailHandlerRegistry = new LazyMailTypeRegistry($container, [$alias => $serviceName]);
+        $mailHandlerRegistry->getMailType($alias);
     }
 
     /**
-     * @return MailHandlerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return MailTypeInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function createMailerHandler()
     {
-        return $this->getMock(MailHandlerInterface::class);
+        return $this->getMock(MailTypeInterface::class);
     }
 }
