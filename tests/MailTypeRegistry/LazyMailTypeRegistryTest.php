@@ -2,18 +2,20 @@
 
 namespace VisualCraft\Bundle\MailerBundle\Tests\MailHandlerRegistry;
 
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Container;
 use VisualCraft\Bundle\MailerBundle\MailType\MailTypeInterface;
 use VisualCraft\Bundle\MailerBundle\MailTypeRegistry\LazyMailTypeRegistry;
 
-class LazyMailTypeRegistryTest extends \PHPUnit_Framework_TestCase
+class LazyMailTypeRegistryTest extends TestCase
 {
     public function testGetMailHandlerReturnHandlerTest()
     {
         $alias = 'foo';
         $serviceName = 'foo_service';
         $mailerHandler = $this->createMailerHandler();
-        $container = $this->getMock(Container::class, ['get', 'has']);
+        $container = $this->createMock(Container::class, ['get', 'has']);
         $container
             ->expects($this->once())
             ->method('get')
@@ -34,7 +36,7 @@ class LazyMailTypeRegistryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetMailHandlerWithNotRegisterMailerHandler()
     {
-        $container = $this->getMock(Container::class);
+        $container = $this->createMock(Container::class);
         $mailHandlerRegistry = new LazyMailTypeRegistry($container, []);
         $mailHandlerRegistry->getMailType('foo');
     }
@@ -44,7 +46,7 @@ class LazyMailTypeRegistryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetMailHandlerWithRegisteredBytNotExistingService()
     {
-        $container = $this->getMock(Container::class);
+        $container = $this->createMock(Container::class);
         $container
             ->method('has')
             ->willReturn(false)
@@ -61,7 +63,7 @@ class LazyMailTypeRegistryTest extends \PHPUnit_Framework_TestCase
     {
         $alias = 'foo';
         $serviceName = 'foo_service';
-        $container = $this->getMock(Container::class, ['get', 'has']);
+        $container = $this->createMock(Container::class, ['get', 'has']);
         $container
             ->expects($this->once())
             ->method('get')
@@ -77,10 +79,10 @@ class LazyMailTypeRegistryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return MailTypeInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return MailTypeInterface|MockObject
      */
     protected function createMailerHandler()
     {
-        return $this->getMock(MailTypeInterface::class);
+        return $this->createMock(MailTypeInterface::class);
     }
 }

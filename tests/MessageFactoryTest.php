@@ -2,16 +2,17 @@
 
 namespace VisualCraft\Bundle\MailerBundle\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use VisualCraft\Bundle\MailerBundle\MailType\MailTypeInterface;
 use VisualCraft\Bundle\MailerBundle\MailTypeRegistry\MailTypeRegistryInterface;
 use VisualCraft\Bundle\MailerBundle\MessageFactory\MessageFactory;
 
-class MessageFactoryTest extends \PHPUnit_Framework_TestCase
+class MessageFactoryTest extends TestCase
 {
     public function testMessageCreated()
     {
-        $mailHandler = $this->getMock(MailTypeInterface::class);
+        $mailHandler = $this->createMock(MailTypeInterface::class);
         $mailHandler
             ->expects($this->once())
             ->method('configureOptions')
@@ -20,7 +21,7 @@ class MessageFactoryTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('buildMessage')
         ;
-        $mailHandlerRegistry = $this->getMock(MailTypeRegistryInterface::class);
+        $mailHandlerRegistry = $this->createMock(MailTypeRegistryInterface::class);
         $mailHandlerRegistry
             ->method('getMailType')
             ->willReturn($mailHandler)
@@ -37,8 +38,8 @@ class MessageFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testThrowExceptionIfResolvingOptionFailed()
     {
-        $mailHandler = $this->getMock(MailTypeInterface::class);
-        $mailHandlerRegistry = $this->getMock(MailTypeRegistryInterface::class);
+        $mailHandler = $this->createMock(MailTypeInterface::class);
+        $mailHandlerRegistry = $this->createMock(MailTypeRegistryInterface::class);
         $mailHandlerRegistry
             ->method('getMailType')
             ->willReturn($mailHandler)
@@ -48,7 +49,13 @@ class MessageFactoryTest extends \PHPUnit_Framework_TestCase
             ->getMock()
         ;
         $optionResolver->method('resolve')->willThrowException(new \LogicException('Message'));
-        $messageFactory = $this->getMock(MessageFactory::class, ['createOptionsResolverInstance'], [$mailHandlerRegistry]);
+
+        $messageFactory = $this->getMockBuilder(MessageFactory::class)
+            ->setMethods(['createOptionsResolverInstance'])
+            ->setConstructorArgs([$mailHandlerRegistry])
+            ->getMock()
+        ;
+
         $messageFactory
             ->method('createOptionsResolverInstance')
             ->willReturn($optionResolver)

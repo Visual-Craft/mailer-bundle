@@ -2,9 +2,10 @@
 
 namespace VisualCraft\Bundle\MailerBundle\Tests;
 
+use PHPUnit\Framework\TestCase;
 use VisualCraft\Bundle\MailerBundle\SendStatus;
 
-class SendStatusTest extends \PHPUnit_Framework_TestCase
+class SendStatusTest extends TestCase
 {
     /**
      * @dataProvider getIsSuccessfulData

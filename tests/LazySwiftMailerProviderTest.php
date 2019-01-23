@@ -2,17 +2,19 @@
 
 namespace VisualCraft\Bundle\MailerBundle\Tests;
 
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Container;
 use VisualCraft\Bundle\MailerBundle\SwiftMailerProvider\LazySwiftMailerProvider;
 
-class LazySwiftMailerProviderTest extends \PHPUnit_Framework_TestCase
+class LazySwiftMailerProviderTest extends TestCase
 {
     /**
      * @expectedException \VisualCraft\Bundle\MailerBundle\Exception\MissingSwiftMailerException
      */
     public function testGetMailerWithNotRegisteredMailer()
     {
-        $container = $this->getMock(Container::class);
+        $container = $this->createMock(Container::class);
         $mailerProvider = new LazySwiftMailerProvider($container, [], 'default');
         $mailerProvider->getMailer('foo');
     }
@@ -22,7 +24,7 @@ class LazySwiftMailerProviderTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetMailerWithRegisteredButNotExist()
     {
-        $container = $this->getMock(Container::class);
+        $container = $this->createMock(Container::class);
         $container
             ->method('has')
             ->willReturn(false)
@@ -38,7 +40,7 @@ class LazySwiftMailerProviderTest extends \PHPUnit_Framework_TestCase
     {
         $serviceName = 'foo';
         $alias = 'bar';
-        $container = $this->getMock(Container::class);
+        $container = $this->createMock(Container::class);
         $container
             ->method('has')
             ->willReturn(true)
@@ -57,7 +59,7 @@ class LazySwiftMailerProviderTest extends \PHPUnit_Framework_TestCase
         $serviceName = 'foo';
         $alias = 'bar';
         $mailer = $this->getMailerMock();
-        $container = $this->getMock(Container::class);
+        $container = $this->createMock(Container::class);
         $container
             ->method('has')
             ->willReturn(true)
@@ -76,7 +78,7 @@ class LazySwiftMailerProviderTest extends \PHPUnit_Framework_TestCase
         $serviceName = 'foo';
         $alias = 'bar';
         $mailer = $this->getMailerMock();
-        $container = $this->getMock(Container::class);
+        $container = $this->createMock(Container::class);
         $container
             ->method('has')
             ->willReturn(true)
@@ -91,7 +93,7 @@ class LazySwiftMailerProviderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|\Swift_Mailer
+     * @return MockObject|\Swift_Mailer
      */
     protected function getMailerMock()
     {

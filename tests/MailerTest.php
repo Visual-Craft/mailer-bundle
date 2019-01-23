@@ -2,12 +2,14 @@
 
 namespace VisualCraft\Bundle\MailerBundle\Tests;
 
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use VisualCraft\Bundle\MailerBundle\Mailer;
 use VisualCraft\Bundle\MailerBundle\MessageFactory\MessageFactoryInterface;
 use VisualCraft\Bundle\MailerBundle\SendStatus;
 use VisualCraft\Bundle\MailerBundle\SwiftMailerProvider\SwiftMailerProviderInterface;
 
-class MailerTest extends \PHPUnit_Framework_TestCase
+class MailerTest extends TestCase
 {
     public function testThatMailAreProcessed()
     {
@@ -20,7 +22,7 @@ class MailerTest extends \PHPUnit_Framework_TestCase
             ->willReturn(1)
         ;
 
-        /** @var \PHPUnit_Framework_MockObject_MockObject|SwiftMailerProviderInterface $mailerProvider */
+        /** @var MockObject|SwiftMailerProviderInterface $mailerProvider */
         $mailerProvider = $this->getMockBuilder(SwiftMailerProviderInterface::class)
             ->disableOriginalConstructor()
             ->getMock()
@@ -31,7 +33,7 @@ class MailerTest extends \PHPUnit_Framework_TestCase
             ->willReturn($mailer)
         ;
 
-        $messageFactory = $this->getMock(MessageFactoryInterface::class);
+        $messageFactory = $this->createMock(MessageFactoryInterface::class);
         $messageFactory
             ->expects($this->once())
             ->method('createMessage')
