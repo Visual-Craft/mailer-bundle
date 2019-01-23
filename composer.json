@@ -11,14 +11,14 @@
         "psr-4": { "VisualCraft\\Bundle\\MailerBundle\\Tests\\": "tests/" }
     },
     "require": {
-        "php": ">=5.5.0",
-        "symfony/framework-bundle": "~2.3|~3.0|~4.0",
-        "symfony/swiftmailer-bundle": "~2.3|~3.0|~4.0",
-        "symfony/options-resolver": "~2.3|~3.0|~4.0"
+        "php": "^7.1",
+        "symfony/framework-bundle": "~3.0|~4.0",
+        "symfony/swiftmailer-bundle": "~3.0",
+        "symfony/options-resolver": "~3.0|~4.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^4.8",
-        "symfony/twig-bundle": "~2.3|~3.0|~4.0"
+        "phpunit/phpunit": "^7.5",
+        "symfony/twig-bundle": "~3.0|~4.0"
     },
     "suggest": {
         "symfony/twig-bundle": "To use the twig for rendering mail body/subject"

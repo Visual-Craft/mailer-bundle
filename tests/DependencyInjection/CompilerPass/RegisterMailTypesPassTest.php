@@ -2,13 +2,14 @@
 
 namespace VisualCraft\Bundle\MailerBundle\Tests\DependencyInjection\CompilerPass;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use VisualCraft\Bundle\MailerBundle\DependencyInjection\CompilerPass\RegisterMailTypesPass;
 use VisualCraft\Bundle\MailerBundle\MailType\MailTypeInterface;
 
-class RegisterMailTypesPassTest extends \PHPUnit_Framework_TestCase
+class RegisterMailTypesPassTest extends TestCase
 {
     public function testThatMailHandlerServicesAreProcessed()
     {
@@ -35,11 +36,11 @@ class RegisterMailTypesPassTest extends \PHPUnit_Framework_TestCase
             'my_mail_type_service3' => $this->createMailTypeDefinition(),
             'my_mail_type_service4' => $this->createMailTypeDefinition(),
         ];
-        $mailTypeRegistryDefinition = $this->getMock(Definition::class);
-        $container = $this->getMock(
-            ContainerBuilder::class,
-            ['findTaggedServiceIds', 'getDefinition']
-        );
+        $mailTypeRegistryDefinition = $this->createMock(Definition::class);
+        $container = $this->getMockBuilder(ContainerBuilder::class)
+            ->setMethods(['findTaggedServiceIds', 'getDefinition'])
+            ->getMock()
+        ;
         $container
             ->method('getDefinition')
             ->willReturnMap([
@@ -79,11 +80,11 @@ class RegisterMailTypesPassTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionIfMailHandlerIsNotValid(array $options)
     {
-        $mailHandlerRegistryDefinition = $this->getMock(Definition::class);
-        $container = $this->getMock(
-            ContainerBuilder::class,
-            ['findTaggedServiceIds', 'getDefinition']
-        );
+        $mailHandlerRegistryDefinition = $this->createMock(Definition::class);
+        $container = $this->getMockBuilder(ContainerBuilder::class)
+            ->setMethods(['findTaggedServiceIds', 'getDefinition'])
+            ->getMock()
+        ;
         $container
             ->method('findTaggedServiceIds')
             ->willReturn(['my_mail_type_service1' => [['type' => 'my_type1']]])
@@ -126,7 +127,7 @@ class RegisterMailTypesPassTest extends \PHPUnit_Framework_TestCase
         ]);
         $options = $optionsResolver->resolve($customOptions);
 
-        $definition = $this->getMock(Definition::class);
+        $definition = $this->createMock(Definition::class);
         $definition
             ->method('getClass')
             ->willReturn($options['class'])

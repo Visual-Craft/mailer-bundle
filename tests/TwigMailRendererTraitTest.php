@@ -2,9 +2,10 @@
 
 namespace VisualCraft\Bundle\MailerBundle\Tests\MailHandler;
 
+use PHPUnit\Framework\TestCase;
 use VisualCraft\Bundle\MailerBundle\TwigMailRendererTrait;
 
-class TwigMailRendererTraitTest extends \PHPUnit_Framework_TestCase
+class TwigMailRendererTraitTest extends TestCase
 {
     public function testRenderBody()
     {

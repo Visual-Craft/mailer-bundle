@@ -15,14 +15,4 @@
             </exclude>
         </whitelist>
     </filter>
-    <logging>
-        <log
-             type="coverage-html"
-             charset="UTF-8"
-             yui="true"
-             highlight="true"
-             lowUpperBound="50"
-             highLowerBound="80"
-        />
-    </logging>
 </phpunit>
