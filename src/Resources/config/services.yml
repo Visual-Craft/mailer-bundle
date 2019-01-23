@@ -5,7 +5,6 @@ services:
         public: false
 
     visual_craft_mailer.swift_mailer_provider:
-        class: VisualCraft\Bundle\MailerBundle\SwiftMailerProvider\SwiftMailerProviderInterface
         alias: visual_craft_mailer.swift_mailer_provider.lazy
         public: false
 
@@ -16,7 +15,6 @@ services:
         public: false
 
     visual_craft_mailer.mail_type_registry:
-        class: VisualCraft\Bundle\MailerBundle\MailTypeRegistry\MailTypeRegistryInterface
         alias: visual_craft_mailer.mail_type_registry.lazy
         public: false
 
@@ -27,7 +25,6 @@ services:
         public: false
 
     visual_craft_mailer.message_factory:
-        class: VisualCraft\Bundle\MailerBundle\MessageFactory\MessageFactoryInterface
         alias: visual_craft_mailer.message_factory.default
         public: false
 
