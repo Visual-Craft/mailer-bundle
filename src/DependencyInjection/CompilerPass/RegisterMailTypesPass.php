@@ -25,13 +25,6 @@ class RegisterMailTypesPass implements CompilerPassInterface
         foreach ($mailTypes as $id => $attributes) {
             $definition = $container->getDefinition($id);
 
-            if (!$definition->isPublic()) {
-                throw new InvalidArgumentException(sprintf(
-                    'The service "%s" must be public as it can be lazy-loaded.',
-                    $id
-                ));
-            }
-
             if ($definition->isAbstract()) {
                 throw new InvalidArgumentException(sprintf(
                     'The service "%s" must not be abstract as it can be lazy-loaded.',
@@ -70,19 +63,17 @@ class RegisterMailTypesPass implements CompilerPassInterface
 
             foreach ($attributes as $attribute) {
                 if (isset($attribute['type'])) {
-                    $mailTypesMap[$attribute['type']] = $id;
+                    $mailTypesMap[$attribute['type']] = new Reference($id);
                 } else {
                     $noType = true;
                 }
             }
 
             if ($noType) {
-                $mailTypesMap[$definition->getClass()] = $id;
+                $mailTypesMap[$definition->getClass()] = new Reference($id);
             }
         }
 
-        if ($mailTypesMap) {
-            $registry->replaceArgument(1, $mailTypesMap);
-        }
+        $registry->addArgument(ServiceLocatorTagPass::register($container, $mailTypesMap));
     }
 }

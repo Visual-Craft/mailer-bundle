@@ -2,30 +2,23 @@
 
 namespace VisualCraft\Bundle\MailerBundle\MailTypeRegistry;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ServiceLocator;
 use VisualCraft\Bundle\MailerBundle\Exception\MissingMailTypeException;
 use VisualCraft\Bundle\MailerBundle\MailType\MailTypeInterface;
 
 class LazyMailTypeRegistry implements MailTypeRegistryInterface
 {
     /**
-     * @var ContainerInterface
+     * @var ServiceLocator
      */
-    private $container;
+    private $serviceLocator;
 
     /**
-     * @var array
+     * @param ServiceLocator $serviceLocator
      */
-    private $typesMap;
-
-    /**
-     * @param ContainerInterface $container
-     * @param array $typesMap
-     */
-    public function __construct(ContainerInterface $container, array $typesMap)
+    public function __construct(ServiceLocator $serviceLocator)
     {
-        $this->container = $container;
-        $this->typesMap = $typesMap;
+        $this->serviceLocator = $serviceLocator;
     }
 
     /**
@@ -34,27 +27,19 @@ class LazyMailTypeRegistry implements MailTypeRegistryInterface
      */
     public function getMailType($type)
     {
-        if (!isset($this->typesMap[$type])) {
+        if (!$this->serviceLocator->has($type)) {
             throw new MissingMailTypeException(sprintf(
                 "Mail type '%s' is not registered.",
                 $type
             ));
         }
 
-        if (!$this->container->has($this->typesMap[$type])) {
-            throw new \RuntimeException(sprintf(
-                "Mail type '%s' depends on missing service '%s'.",
-                $type,
-                $this->typesMap[$type]
-            ));
-        }
-
-        $mailType = $this->container->get($this->typesMap[$type]);
+        $mailType = $this->serviceLocator->get($type);
 
         if (!$mailType instanceof MailTypeInterface) {
             throw new \LogicException(sprintf(
                 "Expected service instance '%s' to be instance of %s, but got instance of '%s'.",
-                $this->typesMap[$type],
+                $type,
                 MailTypeInterface::class,
                 get_class($mailType)
             ));
