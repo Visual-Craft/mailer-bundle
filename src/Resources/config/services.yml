@@ -1,34 +1,34 @@
 services:
-    visual_craft_mailer.swift_mailer_provider.lazy:
-        class: VisualCraft\Bundle\MailerBundle\SwiftMailerProvider\LazySwiftMailerProvider
+    _defaults:
+        public: false
+
+    VisualCraft\Bundle\MailerBundle\SwiftMailerProvider\LazySwiftMailerProvider:
         arguments: [ '@service_container', '%swiftmailer.mailers%', '%swiftmailer.default_mailer%' ]
-        public: false
 
-    visual_craft_mailer.swift_mailer_provider:
-        alias: visual_craft_mailer.swift_mailer_provider.lazy
-        public: false
+    visual_craft_mailer.swift_mailer_provider.lazy:
+        alias: VisualCraft\Bundle\MailerBundle\SwiftMailerProvider\LazySwiftMailerProvider
 
+    VisualCraft\Bundle\MailerBundle\SwiftMailerProvider\SwiftMailerProviderInterface:
+        alias: VisualCraft\Bundle\MailerBundle\SwiftMailerProvider\LazySwiftMailerProvider
+
+    VisualCraft\Bundle\MailerBundle\MailTypeRegistry\LazyMailTypeRegistry: ~
 
     visual_craft_mailer.mail_type_registry.lazy:
-        class: VisualCraft\Bundle\MailerBundle\MailTypeRegistry\LazyMailTypeRegistry
-        arguments: [ '@service_container', [] ]
-        public: false
+        alias: VisualCraft\Bundle\MailerBundle\MailTypeRegistry\LazyMailTypeRegistry
 
-    visual_craft_mailer.mail_type_registry:
-        alias: visual_craft_mailer.mail_type_registry.lazy
-        public: false
+    VisualCraft\Bundle\MailerBundle\MailTypeRegistry\MailTypeRegistryInterface:
+        alias: VisualCraft\Bundle\MailerBundle\MailTypeRegistry\LazyMailTypeRegistry
 
+    VisualCraft\Bundle\MailerBundle\MessageFactory\MessageFactory:
+        arguments: ['@VisualCraft\Bundle\MailerBundle\MailTypeRegistry\MailTypeRegistryInterface']
 
-    visual_craft_mailer.message_factory.default:
-        class: VisualCraft\Bundle\MailerBundle\MessageFactory\MessageFactory
-        arguments: ['@visual_craft_mailer.mail_type_registry']
-        public: false
+    VisualCraft\Bundle\MailerBundle\MessageFactory\MessageFactoryInterface:
+        alias: VisualCraft\Bundle\MailerBundle\MessageFactory\MessageFactory
 
-    visual_craft_mailer.message_factory:
-        alias: visual_craft_mailer.message_factory.default
-        public: false
-
+    VisualCraft\Bundle\MailerBundle\Mailer:
+        arguments:
+            - '@VisualCraft\Bundle\MailerBundle\SwiftMailerProvider\SwiftMailerProviderInterface'
+            - '@VisualCraft\Bundle\MailerBundle\MessageFactory\MessageFactoryInterface'
 
     visual_craft_mailer.mailer:
-        class: VisualCraft\Bundle\MailerBundle\Mailer
-        arguments: [ '@visual_craft_mailer.swift_mailer_provider', '@visual_craft_mailer.message_factory' ]
+        alias: VisualCraft\Bundle\MailerBundle\Mailer

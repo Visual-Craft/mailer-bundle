@@ -2,11 +2,15 @@
 
 namespace VisualCraft\Bundle\MailerBundle\DependencyInjection\CompilerPass;
 
+use App\MailType\Profile\ActivationMailType;
+use App\MailType\Profile\RecoveryPasswordMailType;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\Compiler\ServiceLocatorTagPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Reference;
 use VisualCraft\Bundle\MailerBundle\MailType\MailTypeInterface;
+use VisualCraft\Bundle\MailerBundle\MailTypeRegistry\LazyMailTypeRegistry;
 use VisualCraft\Bundle\MailerBundle\TwigAwareInterface;
 
 class RegisterMailTypesPass implements CompilerPassInterface
@@ -17,7 +21,7 @@ class RegisterMailTypesPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $registry = $container->getDefinition('visual_craft_mailer.mail_type_registry.lazy');
+        $registry = $container->getDefinition(LazyMailTypeRegistry::class);
         $mailTypesTag = 'visual_craft_mailer.mail_type';
         $mailTypes = $container->findTaggedServiceIds($mailTypesTag);
         $mailTypesMap = [];

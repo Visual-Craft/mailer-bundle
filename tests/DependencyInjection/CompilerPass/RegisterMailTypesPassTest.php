@@ -8,6 +8,7 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use VisualCraft\Bundle\MailerBundle\DependencyInjection\CompilerPass\RegisterMailTypesPass;
 use VisualCraft\Bundle\MailerBundle\MailType\MailTypeInterface;
+use VisualCraft\Bundle\MailerBundle\MailTypeRegistry\LazyMailTypeRegistry;
 
 class RegisterMailTypesPassTest extends TestCase
 {
@@ -44,7 +45,7 @@ class RegisterMailTypesPassTest extends TestCase
         $container
             ->method('getDefinition')
             ->willReturnMap([
-                ['visual_craft_mailer.mail_type_registry.lazy', $mailTypeRegistryDefinition],
+                [LazyMailTypeRegistry::class, $mailTypeRegistryDefinition],
                 ['my_mail_type_service1', $mailTypesDefinitions['my_mail_type_service1']],
                 ['my_mail_type_service2', $mailTypesDefinitions['my_mail_type_service2']],
                 ['my_mail_type_service3', $mailTypesDefinitions['my_mail_type_service3']],
@@ -58,7 +59,7 @@ class RegisterMailTypesPassTest extends TestCase
 
         $mailTypeRegistryDefinition
             ->expects($this->once())
-            ->method('replaceArgument')
+            ->method('addArgument')
             ->with(1, [
                 'my_type1' => 'my_mail_type_service1',
                 'my_type2' => 'my_mail_type_service2',
@@ -92,7 +93,7 @@ class RegisterMailTypesPassTest extends TestCase
         $container
             ->method('getDefinition')
             ->willReturnMap([
-                ['visual_craft_mailer.mail_type_registry.lazy', $mailHandlerRegistryDefinition],
+                [LazyMailTypeRegistry::class, $mailHandlerRegistryDefinition],
                 ['my_mail_type_service1', $this->createMailTypeDefinition($options)],
             ])
         ;
@@ -106,7 +107,6 @@ class RegisterMailTypesPassTest extends TestCase
     public function getNotValidMailHandlerOptions()
     {
         return [
-            [['isPublic' => false]],
             [['isAbstract' => true]],
             [['class' => \stdClass::class]],
             [['class' => 'Foo']],
