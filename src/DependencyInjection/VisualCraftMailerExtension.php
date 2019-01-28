@@ -20,7 +20,6 @@ class VisualCraftMailerExtension extends Extension
 
         $container->registerForAutoconfiguration(MailTypeInterface::class)
             ->addTag('visual_craft_mailer.mail_type')
-            ->setPublic(true)
         ;
     }
 }
