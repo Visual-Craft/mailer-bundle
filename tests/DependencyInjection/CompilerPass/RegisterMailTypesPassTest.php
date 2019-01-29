@@ -3,6 +3,7 @@
 namespace VisualCraft\Bundle\MailerBundle\Tests\DependencyInjection\CompilerPass;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\DependencyInjection\Argument\ServiceClosureArgument;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -14,8 +15,6 @@ class RegisterMailTypesPassTest extends TestCase
 {
     public function testThatMailHandlerServicesAreProcessed()
     {
-        $this->markTestSkipped();
-
         $services = [
             'my_mail_type_service1' => [
                 ['type' => 'my_type1'],
@@ -41,7 +40,7 @@ class RegisterMailTypesPassTest extends TestCase
         ];
         $mailTypeRegistryDefinition = $this->createMock(Definition::class);
         $container = $this->getMockBuilder(ContainerBuilder::class)
-            ->setMethods(['findTaggedServiceIds', 'getDefinition'])
+            ->setMethods(['findTaggedServiceIds', 'getDefinition', 'setDefinition'])
             ->getMock()
         ;
         $container
@@ -59,20 +58,52 @@ class RegisterMailTypesPassTest extends TestCase
             ->willReturn($services)
         ;
 
+        $container->expects($spySetDefinition = $this->any())
+            ->method('setDefinition')
+        ;
+
         $mailTypeRegistryDefinition
-            ->expects($this->once())
+            ->expects($spyAddArgument = $this->any())
             ->method('addArgument')
-            ->with(1, [
+        ;
+        $registerMailHandlersPass = new RegisterMailTypesPass();
+
+        $registerMailHandlersPass->process($container);
+
+        $addArgumentInvocations = $spyAddArgument->getInvocations();
+
+        $this->assertEquals(1, count($addArgumentInvocations));
+
+        $addArgument = end($addArgumentInvocations);
+        $locatorDefinition = $addArgument->getParameters()[0];
+        $setDefinitionInvocations = $spySetDefinition->getInvocations();
+
+        $this->assertEquals(1, count($setDefinitionInvocations));
+
+        $setDefinition = end($setDefinitionInvocations);
+        $setDefinitionParamId = $setDefinition->getParameters()[0];
+
+        $this->assertEquals($locatorDefinition, $setDefinitionParamId);
+
+        $setDefinitionParamDefinition = $setDefinition->getParameters()[1];
+
+        $arguments = [];
+
+        /**
+         * @var ServiceClosureArgument $value
+         */
+        foreach ($setDefinitionParamDefinition->getArgument(0) as $key => $value) {
+            $this->assertInstanceOf(ServiceClosureArgument::class, $value);
+            $arguments[$key] = (string) $value->getValues()[0];
+        }
+
+        $this->assertEquals($arguments, [
+            $mailTypesDefinitions['my_mail_type_service4']->getClass() => 'my_mail_type_service4',
                 'my_type1' => 'my_mail_type_service1',
                 'my_type2' => 'my_mail_type_service2',
                 'my_type3' => 'my_mail_type_service2',
                 'my_type4' => 'my_mail_type_service3',
-                $mailTypesDefinitions['my_mail_type_service3']->getClass() => 'my_mail_type_service3',
-                $mailTypesDefinitions['my_mail_type_service4']->getClass() => 'my_mail_type_service4',
-            ])
-        ;
-        $registerMailHandlersPass = new RegisterMailTypesPass();
-        $registerMailHandlersPass->process($container);
+        ]);
     }
 
     /**
