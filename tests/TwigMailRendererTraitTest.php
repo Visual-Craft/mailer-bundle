@@ -3,6 +3,7 @@
 namespace VisualCraft\Bundle\MailerBundle\Tests\MailHandler;
 
 use PHPUnit\Framework\TestCase;
+use Twig\Environment;
 use VisualCraft\Bundle\MailerBundle\TwigMailRendererTrait;
 
 class TwigMailRendererTraitTest extends TestCase
@@ -12,7 +13,7 @@ class TwigMailRendererTraitTest extends TestCase
         $templateName = 'boo.html.twig';
         $templateParameters = ['bar' => 'foo'];
         $willReturn = 'foo';
-        $twig = $this->getMockBuilder(\Twig_Environment::class)
+        $twig = $this->getMockBuilder(Environment::class)
             ->disableOriginalConstructor()
             ->getMock()
         ;
@@ -38,7 +39,7 @@ class TwigMailRendererTraitTest extends TestCase
     {
         $templateName = 'boo.html.twig';
         $templateParameters = ['bar' => 'foo'];
-        $twig = $this->getMockBuilder(\Twig_Environment::class)
+        $twig = $this->getMockBuilder(Environment::class)
             ->disableOriginalConstructor()
             ->getMock()
         ;
@@ -66,7 +67,7 @@ class TwigMailRendererTraitTest extends TestCase
      */
     public function testRenderSubject($templateEngineReturn, $expectedReturn)
     {
-        $twig = $this->getMockBuilder(\Twig_Environment::class)
+        $twig = $this->getMockBuilder(Environment::class)
             ->disableOriginalConstructor()
             ->getMock()
         ;
@@ -95,7 +96,7 @@ class TwigMailRendererTraitTest extends TestCase
             ['foo', 'foo'],
             [' foo ', 'foo'],
             ["foo\n", 'foo'],
-            [null, ''],
+            ['', ''],
         ];
     }
 }
