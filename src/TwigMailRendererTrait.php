@@ -2,17 +2,19 @@
 
 namespace VisualCraft\Bundle\MailerBundle;
 
+use Twig\Environment;
+
 trait TwigMailRendererTrait
 {
     /**
-     * @var \Twig_Environment
+     * @var Environment
      */
     protected $twig;
 
     /**
-     * @param \Twig_Environment $value
+     * @param Environment $value
      */
-    public function setTwig(\Twig_Environment $value)
+    public function setTwig(Environment $value)
     {
         $this->twig = $value;
     }
